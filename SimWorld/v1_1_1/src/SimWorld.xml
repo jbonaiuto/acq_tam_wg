@@ -1,0 +1,1170 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>SimWorld</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<getCurrentVersion>true</getCurrentVersion>
+	<arguments>int numDrives, int mapSize, int maxNodes</arguments>
+	<buffering>true</buffering>
+	<imports>
+		<import>javax.media.j3d.*</import>
+		<import>com.sun.j3d.utils.universe.*</import>
+		<import>com.sun.j3d.utils.geometry.*</import>
+		<import>javax.vecmath.*</import>
+		<import>java.net.*</import>
+		<import>java.io.*</import>
+	</imports>
+	<variables>
+		<variable type="BasicVariable">
+			<name>ndc</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>other</categoryType>
+			<dimensions>0</dimensions>
+			<type>Nsl3dCanvas</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>sound</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>other</categoryType>
+			<dimensions>0</dimensions>
+			<type>BackgroundSound</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>avatarMapPosition</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>incentives</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>reductions</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>reductionDelta</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>incentiveDelta</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="OutputPort">
+			<name>currentNodeCenter</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>nodeCount</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>nodeCenters</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>2</dimensions>
+			<type>double</type>
+			<params>][</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="OutputPort">
+			<name>incentivePosition</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDoutDouble2</type>
+			<params>numDrives, 2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>adjacentNodeCenters</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDoutDouble2</type>
+			<params>maxNodes, 2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>currentNodeIdx</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="OutputPort">
+			<name>affordances</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDoutDouble2</type>
+			<params>maxNodes, 2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>numAffordances</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>fearReductionDelta</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>avatarWorldPosition</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>protocol</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslString</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslString0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>SimWorld</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>132</x>
+				<y>116</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>108</x>
+				<y>116</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>108</x>
+						<y>116</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>108</x>
+						<y>116</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>avatarMapPosition</name>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>38</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>38</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>38</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>38</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>incentives</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>108</x>
+						<y>16</y>
+					</min>
+					<max>
+						<x>132</x>
+						<y>16</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>108</x>
+						<y>16</y>
+					</coordinate>
+					<coordinate>
+						<x>132</x>
+						<y>16</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>reductions</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>108</x>
+						<y>32</y>
+					</min>
+					<max>
+						<x>132</x>
+						<y>32</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>108</x>
+						<y>32</y>
+					</coordinate>
+					<coordinate>
+						<x>132</x>
+						<y>32</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>currentNodeCenter</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>108</x>
+						<y>48</y>
+					</min>
+					<max>
+						<x>132</x>
+						<y>48</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>108</x>
+						<y>48</y>
+					</coordinate>
+					<coordinate>
+						<x>132</x>
+						<y>48</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble2">
+				<name>incentivePosition</name>
+				<parameters>numDrives, 2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>108</x>
+						<y>64</y>
+					</min>
+					<max>
+						<x>132</x>
+						<y>64</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>108</x>
+						<y>64</y>
+					</coordinate>
+					<coordinate>
+						<x>132</x>
+						<y>64</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble2">
+				<name>adjacentNodeCenters</name>
+				<parameters>maxNodes, 2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>108</x>
+						<y>80</y>
+					</min>
+					<max>
+						<x>132</x>
+						<y>80</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>108</x>
+						<y>80</y>
+					</coordinate>
+					<coordinate>
+						<x>132</x>
+						<y>80</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble2">
+				<name>affordances</name>
+				<parameters>maxNodes, 2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>108</x>
+						<y>96</y>
+					</min>
+					<max>
+						<x>132</x>
+						<y>96</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>108</x>
+						<y>96</y>
+					</coordinate>
+					<coordinate>
+						<x>132</x>
+						<y>96</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>avatarWorldPosition</name>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>76</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>76</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>76</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>76</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>avatarMapPosition</name>
+				<type>NslDinDouble1</type>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>104</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>104</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>120</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>136</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>120</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>120</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>avatarWorldPosition</name>
+				<type>NslDinDouble1</type>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>184</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>184</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>200</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>216</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>216</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>200</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>200</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>incentives</name>
+				<type>NslDoutDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>520</x>
+						<y>8</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>8</y>
+					</corner>
+					<corner>
+						<x>544</x>
+						<y>24</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>40</y>
+					</corner>
+					<corner>
+						<x>520</x>
+						<y>40</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>504</x>
+						<y>24</y>
+					</min>
+					<max>
+						<x>520</x>
+						<y>24</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>reductions</name>
+				<type>NslDoutDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>520</x>
+						<y>72</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>72</y>
+					</corner>
+					<corner>
+						<x>544</x>
+						<y>88</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>104</y>
+					</corner>
+					<corner>
+						<x>520</x>
+						<y>104</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>504</x>
+						<y>88</y>
+					</min>
+					<max>
+						<x>520</x>
+						<y>88</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>currentNodeCenter</name>
+				<type>NslDoutDouble1</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>520</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>544</x>
+						<y>152</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>168</y>
+					</corner>
+					<corner>
+						<x>520</x>
+						<y>168</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>504</x>
+						<y>152</y>
+					</min>
+					<max>
+						<x>520</x>
+						<y>152</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>incentivePosition</name>
+				<type>NslDoutDouble2</type>
+				<parameters>numDrives, 2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>520</x>
+						<y>200</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>200</y>
+					</corner>
+					<corner>
+						<x>544</x>
+						<y>216</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>232</y>
+					</corner>
+					<corner>
+						<x>520</x>
+						<y>232</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>504</x>
+						<y>216</y>
+					</min>
+					<max>
+						<x>520</x>
+						<y>216</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>adjacentNodeCenters</name>
+				<type>NslDoutDouble2</type>
+				<parameters>maxNodes, 2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>520</x>
+						<y>264</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>264</y>
+					</corner>
+					<corner>
+						<x>544</x>
+						<y>280</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>296</y>
+					</corner>
+					<corner>
+						<x>520</x>
+						<y>296</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>504</x>
+						<y>280</y>
+					</min>
+					<max>
+						<x>520</x>
+						<y>280</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>affordances</name>
+				<type>NslDoutDouble2</type>
+				<parameters>maxNodes, 2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>520</x>
+						<y>328</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>328</y>
+					</corner>
+					<corner>
+						<x>544</x>
+						<y>344</y>
+					</corner>
+					<corner>
+						<x>532</x>
+						<y>360</y>
+					</corner>
+					<corner>
+						<x>520</x>
+						<y>360</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>504</x>
+						<y>344</y>
+					</min>
+					<max>
+						<x>520</x>
+						<y>344</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void initSys()
+{
+	fearReductionDelta=0.001;
+	reductionDelta=0.1;
+	incentiveDelta=0.05;
+	currentNodeIdx=-1;
+}
+
+public void initNodes()
+{
+	nodeCount=0;
+	nodeCenters=new double[maxNodes][2];
+	for(int x=0; x&lt;mapSize; x++)
+	{
+		for(int y=0; y&lt;mapSize; y++)
+		{
+			int coordColor=ndc.getMapCoordColor(x, y);
+			if(coordColor==Nsl3dCanvas.colorFood || coordColor==Nsl3dCanvas.colorWater ||
+				coordColor==Nsl3dCanvas.colorNode)
+			{
+				//Vector3d nodeWorldCoord=ndc.convertToWorldCoordinate(new Point2d(x,y));
+				nodeCenters[nodeCount]=new double[]{x, y};
+				nodeCount=nodeCount+1;
+			}
+		}
+	}
+}
+
+public void initView()
+{
+	//set the initial position for the Viewer
+	ViewingPlatform vp=ndc.getVp();
+	TransformGroup steerTG = vp.getViewPlatformTransform();
+	Transform3D t3d =  new  Transform3D();
+	steerTG.getTransform(t3d);
+	t3d.lookAt(  new  Point3d(0,100.0,0),  new  Point3d(0,0,0),  new  Vector3d(0,1,-1));
+	t3d.invert();
+	steerTG.setTransform(t3d);
+}
+
+protected double getScale()
+{
+	return 0.05;
+}
+
+public void simRun()
+{
+	process();
+}
+
+public void simTrain()
+{
+	process();
+}
+
+protected void process()
+{
+	setCurrentNodeCenter();
+	//setAdjacentNodeCenters();
+	//setAffordances();
+	//setReductions();
+	//setIncentives();
+	adjacentNodeCenters=Double.NaN;
+	numAffordances=0;
+	affordances=Double.NaN;
+	reductions=0;
+	incentives=0;
+	incentivePosition=Double.NaN;
+			
+	for(int i=0; i&lt;nodeCount; i++)
+	{
+		int coordColor=ndc.getMapCoordColor(nodeCenters[i][0], nodeCenters[i][1]);
+		Vector3d nodeWorldCoordVec=ndc.convertToWorldCoordinate(new Point2d(nodeCenters[i][0], nodeCenters[i][1]));
+		double[] nodeWorldCoord=new double[]{nodeWorldCoordVec.x, nodeWorldCoordVec.z};
+		double worldDist=nslDistance(nodeWorldCoord,avatarWorldPosition.get());
+	
+		setAdjacentNodeCenters(i);
+		setAffordances(i, coordColor, worldDist);
+		setReductions(i, coordColor, worldDist);
+		setIncentives(i, coordColor, worldDist);
+	}
+	if(numAffordances&gt;=3)
+		reductions.set(2,fearReductionDelta);
+	if(protocol.equals("linearMaze"))
+	{
+		if(system.getCurrentEpoch()&gt;5 &amp;&amp; reductions.get(1)&gt;0)
+			reductions.set(2,10*fearReductionDelta);
+	}
+}
+
+public void tMazeProtocol()
+{
+	protocol="tMaze";
+}
+
+public void eightArmMazeProtocol()
+{
+	protocol="eightArmMaze";
+}
+
+public void linearMazeProtocol()
+{
+	protocol="linearMaze";
+}
+
+protected void setCurrentNodeCenter()
+{
+	currentNodeIdx=getNodeId(avatarMapPosition.get());
+	currentNodeCenter.set(0, nodeCenters[currentNodeIdx][0]);
+	currentNodeCenter.set(1, nodeCenters[currentNodeIdx][1]);
+}
+
+protected int getNodeId(double[] position)
+{
+	double nearestDist=Double.POSITIVE_INFINITY;
+	int currentNodeIdx=-1;
+	for(int i=0; i&lt;nodeCount; i++)
+	{
+		double dist=nslDistance(nodeCenters[i],position);
+		if(dist&lt;nearestDist)
+		{
+			nearestDist=dist;
+			currentNodeIdx=i;
+		}
+	}
+	return currentNodeIdx;
+}
+
+protected void setAdjacentNodeCenters(int nodeIdx)
+{
+	//for(int i=0; i&lt;maxNodes; i++)
+	//{
+		//adjacentNodeCenters.set(nodeIdx, new double[]{Double.NaN, Double.NaN});
+		// If this is a node and not the node where the model is currently located and there is
+		// a clear path to it
+		if(nodeIdx&lt;nodeCount &amp;&amp; nodeIdx!=currentNodeIdx &amp;&amp; !Double.isNaN(nodeCenters[nodeIdx][0]) &amp;&amp;
+			isReachable(nodeCenters[currentNodeIdx], nodeCenters[nodeIdx]))
+		{
+			// Add to list
+			adjacentNodeCenters.set(nodeIdx, new double[]{nodeCenters[nodeIdx][0],nodeCenters[nodeIdx][1]});
+		}
+	//}
+}
+
+protected boolean isReachable(double[] start, double[] end)
+{
+	int startNodeId=getNodeId(start);
+	int endNodeId=getNodeId(end);
+	if(startNodeId==endNodeId)
+		return true;
+	// Check for a path between current node position and adjacent node position
+	double slope=Double.POSITIVE_INFINITY;
+	if((int)(end[0]-start[0])!=0)
+		slope=(end[1]-start[1])/(end[0]-start[0]);
+	double yDelta=0, xDelta=0;
+	// Slope is horizontal or vertical
+	if(nslAbs(slope)&lt;0.001||Double.isInfinite(slope))
+	{
+		// Slope is horizontal
+		xDelta=(end[0]-start[0])/10;
+
+		// Slope is vertical
+		yDelta=(end[1]-start[1])/10;
+	}
+	//Slope is diagonal
+	else
+	{
+		xDelta=(end[0]-start[0])/10;
+		yDelta=xDelta*slope;
+	}
+	// Length of a single step
+	double stepLength=nslSqrt(nslPow(xDelta,2)+nslPow(yDelta,2));
+	// Number of steps to take
+	int steps=(int)(nslDistance(end,start)/stepLength)-1;
+
+	// Check for collisions step-by-step between position and node center
+	for(int i=0; i&lt;steps; i++)
+	{
+		// Calculate position
+		double x=start[0]+(i+1)*xDelta;
+		double y=start[1]+(i+1)*yDelta;
+		//for(int xOffset=-1; xOffset&lt;2; xOffset++)
+		//{
+			// Get color of map coordinate
+			int color=ndc.getMapCoordColor(x/*+xOffset*/, y);
+			// If collision with wall or a node other than current one
+			int nearestNodeId=getNodeId( new  double[]{x/*+xOffset*/,y});
+			if(color==Nsl3dCanvas.colorWall||(nearestNodeId!=startNodeId&amp;&amp;nearestNodeId!=endNodeId))
+			{
+				return false;
+			}
+		//}
+	}
+	return true;
+}
+
+protected void setAffordances(int nodeIdx, int coordColor, double dist)
+{
+	//numAffordances=0;
+	//for(int i=0; i&lt;maxNodes; i++)
+	//{
+		//affordances.set(nodeIdx, new double[]{Double.NaN, Double.NaN});
+
+		//int coordColor=ndc.getMapCoordColor(nodeCenters[nodeIdx][0], nodeCenters[nodeIdx][1]);
+
+		// If this is the node the model is currently in but the model is not in the node center and the node contains food or water
+		boolean affordanceWithinNode=(nodeIdx==currentNodeIdx &amp;&amp; dist&gt;5 &amp;&amp; 
+			(coordColor==Nsl3dCanvas.colorFood || coordColor==Nsl3dCanvas.colorWater));
+		// If this is a node and not the node where the model is currently located and there is a straight clear path to it
+		boolean affordanceOutsideNode=(nodeIdx!=currentNodeIdx &amp;&amp; nodeIdx&lt;nodeCount &amp;&amp; !Double.isNaN(nodeCenters[nodeIdx][0]) &amp;&amp; 
+			isReachable(nodeCenters[currentNodeIdx],nodeCenters[nodeIdx]));
+		if(affordanceWithinNode || affordanceOutsideNode)
+		{
+			Vector3d nodeWorldCoordVec=ndc.convertToWorldCoordinate(new Point2d(nodeCenters[nodeIdx][0], nodeCenters[nodeIdx][1]));
+			affordances.set(nodeIdx, new double[]{nodeWorldCoordVec.x, nodeWorldCoordVec.z});
+			numAffordances=numAffordances+1;
+		}
+	//}
+}
+
+protected void setReductions(int nodeIdx, int coordColor, double dist)
+{
+	//reductions=0;
+	//for(int i=0; i&lt;maxNodes; i++)
+	//{
+		//int coordColor=ndc.getMapCoordColor(nodeCenters[nodeIdx][0], nodeCenters[nodeIdx][1]);
+
+		if(dist&lt;=2)
+		{ 
+			if(coordColor==Nsl3dCanvas.colorWater)
+				reductions.set(0,reductionDelta);
+			else if(coordColor==Nsl3dCanvas.colorFood)
+				reductions.set(1,reductionDelta);
+		}
+	//}
+	//if(numAffordances&gt;=3)
+	//	reductions.set(2,fearReductionDelta);
+}
+
+protected void setIncentives(int nodeIdx, int coordColor, double dist)
+{
+	//incentives=0;
+	//incentivePosition.set(0, 0, Double.NaN);
+	//incentivePosition.set(0, 1, Double.NaN);
+	//incentivePosition.set(1,0,Double.NaN);
+	//incentivePosition.set(1,1,Double.NaN);
+	//incentivePosition.set(2,0,Double.NaN);
+	//incentivePosition.set(2,1,Double.NaN);
+	
+	//for(int i=0; i&lt;maxNodes; i++)
+	//{
+		//int coordColor=ndc.getMapCoordColor(nodeCenters[nodeIdx][0], nodeCenters[nodeIdx][1]);
+		if(dist&lt;=10 &amp;&amp; dist&gt;2)
+		{
+			if(coordColor==Nsl3dCanvas.colorWater)
+			{
+				incentives.set(0, incentiveDelta);
+				Vector3d nodeWorldCoordVec=ndc.convertToWorldCoordinate(new Point2d(nodeCenters[nodeIdx][0], nodeCenters[nodeIdx][1]));
+				incentivePosition.set(0, new double[]{nodeWorldCoordVec.x, nodeWorldCoordVec.z});
+			}
+			else if(coordColor==Nsl3dCanvas.colorFood)
+			{
+				incentives.set(1, incentiveDelta);
+				Vector3d nodeWorldCoordVec=ndc.convertToWorldCoordinate(new Point2d(nodeCenters[nodeIdx][0], nodeCenters[nodeIdx][1]));
+				incentivePosition.set(1, new double[]{nodeWorldCoordVec.x, nodeWorldCoordVec.z});
+			}
+		}
+	//}
+}
+
+/*
+public double[] checkCircle(double x, double y, double radius, int color)
+{
+	for(int i=0; i&lt;=2*radius; i++)
+	{
+		if(x-radius&lt;mapSize &amp;&amp; x-radius&gt;-1 &amp;&amp; y-radius+i&lt;mapSize &amp;&amp; y-radius+i&gt;-1 &amp;&amp;
+			ndc.getMapCoordColor(x-radius, y-radius+i)==color)
+			return new double[]{x-radius, y-radius+i};;
+	}
+	for(int i=1; i&lt;2*radius; i++)
+	{
+		if(x-radius+i&lt;mapSize &amp;&amp; x-radius+1&gt;-1 &amp;&amp; y+radius&lt;mapSize &amp;&amp; y+radius&gt;-1 &amp;&amp;
+			ndc.getMapCoordColor(x-radius+i, y+radius)==color)
+			return new double[]{x-radius+i, y+radius};
+	}
+	for(int i=0; i&lt;=2*radius; i++)
+	{
+		if(x+radius&lt;mapSize &amp;&amp; x+radius&gt;-1 &amp;&amp; y+radius-i&lt;mapSize &amp;&amp; y+radius-i&gt;-1 &amp;&amp;
+			ndc.getMapCoordColor(x+radius, y+radius-i)==color)
+			return new double[]{x+radius, y+radius-i};
+	}
+	for(int i=1; i&lt;2*radius; i++)
+	{
+		if(x-radius+i&lt;mapSize &amp;&amp; x-radius+i&gt;-1 &amp;&amp; y-radius&lt;mapSize &amp;&amp; y-radius&gt;-1 &amp;&amp; 
+			ndc.getMapCoordColor(x-radius+i, y-radius)==color)
+			return new double[]{x-radius+i, y-radius};
+	}
+	return new double[]{Double.NaN,Double.NaN};
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</methods>
+	</nslm>
+</module>

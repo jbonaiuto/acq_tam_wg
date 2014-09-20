@@ -1,0 +1,379 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>Pop1dDecoder</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<arguments>int size, double minVal, double maxVal, double threshold, boolean symmetric</arguments>
+	<buffering>true</buffering>
+	<imports>
+	</imports>
+	<variables>
+		<variable type="InputPort">
+			<name>input</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>output</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDoutDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>sum</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>Pop1dDecoder</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>156</x>
+				<y>36</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>132</x>
+				<y>36</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>132</x>
+						<y>36</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>132</x>
+						<y>36</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>input</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>18</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>18</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>18</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>18</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble0">
+				<name>output</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>132</x>
+						<y>18</y>
+					</min>
+					<max>
+						<x>156</x>
+						<y>18</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>132</x>
+						<y>18</y>
+					</coordinate>
+					<coordinate>
+						<x>156</x>
+						<y>18</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>input</name>
+				<type>NslDinDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>360</x>
+						<y>184</y>
+					</corner>
+					<corner>
+						<x>372</x>
+						<y>184</y>
+					</corner>
+					<corner>
+						<x>384</x>
+						<y>200</y>
+					</corner>
+					<corner>
+						<x>372</x>
+						<y>216</y>
+					</corner>
+					<corner>
+						<x>360</x>
+						<y>216</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>384</x>
+						<y>200</y>
+					</min>
+					<max>
+						<x>400</x>
+						<y>200</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>output</name>
+				<type>NslDoutDouble0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>512</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>524</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>536</x>
+						<y>208</y>
+					</corner>
+					<corner>
+						<x>524</x>
+						<y>224</y>
+					</corner>
+					<corner>
+						<x>512</x>
+						<y>224</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>496</x>
+						<y>208</y>
+					</min>
+					<max>
+						<x>512</x>
+						<y>208</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void simRun()
+{
+	processInput();
+}
+
+public void simTrain()
+{
+	processInput();
+}
+
+protected void processInput()
+{
+	output=0;
+	sum=0;
+	if(symmetric &amp;&amp; input.get(0)&gt;=threshold &amp;&amp; input.get(size-1)&gt;=threshold)
+	{
+		double negTotal=0, posTotal=0;
+		for(int i=0; i&lt;size; i++)
+		{
+			if(i&lt;size/2)
+				negTotal=negTotal+input.get(i);
+			else
+				posTotal=posTotal+input.get(i);
+		}
+		for(int i=0; i&lt;size; i++)
+		{
+			if(input.get(i)&gt;=threshold)
+			{
+				double prefVal=minVal+((double)i)*((maxVal-minVal)/(size-1));
+				if(i&lt;size/2 &amp;&amp; posTotal&gt;=negTotal)
+					prefVal=prefVal+(maxVal-minVal);
+				else if(i&gt;size/2 &amp;&amp; negTotal&gt;posTotal)
+					prefVal=prefVal+(minVal-maxVal);
+				output.set(output.get()+input.get(i)*prefVal);
+				sum=sum+input.get(i);
+			}
+		}
+	}
+	else
+	{		
+		for(int i=0; i&lt;size; i++)
+		{
+			if(input.get(i)&gt;=threshold)
+			{
+				double prefVal=minVal+((double)i)*((maxVal-minVal)/(size-1));
+				output.set(output.get()+input.get(i)*prefVal);
+				sum=sum+input.get(i);
+			}
+		}
+	}
+	output.set(output.get()/sum);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</methods>
+	</nslm>
+</module>

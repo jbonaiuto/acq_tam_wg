@@ -1,0 +1,461 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>Hypothalamus</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<arguments>int numDrives, double[] d_min, double[] d_max</arguments>
+	<buffering>true</buffering>
+	<imports>
+	</imports>
+	<variables>
+		<variable type="BasicVariable">
+			<name>appetitiveAlpha</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>thirst</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>hunger</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>fear</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>incentives_wm</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>incentives</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>reductions</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>drives</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>aversiveAlpha</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>tonicInput</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>1</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>Hypothalamus</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>148</x>
+				<y>36</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>124</x>
+				<y>36</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>124</x>
+						<y>36</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>124</x>
+						<y>36</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>drives</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>124</x>
+						<y>18</y>
+					</min>
+					<max>
+						<x>148</x>
+						<y>18</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>124</x>
+						<y>18</y>
+					</coordinate>
+					<coordinate>
+						<x>148</x>
+						<y>18</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>incentives</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>9</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>9</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>9</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>9</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>reductions</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>26</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>26</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>26</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>26</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>incentives</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>248</x>
+						<y>96</y>
+					</corner>
+					<corner>
+						<x>260</x>
+						<y>96</y>
+					</corner>
+					<corner>
+						<x>272</x>
+						<y>112</y>
+					</corner>
+					<corner>
+						<x>260</x>
+						<y>128</y>
+					</corner>
+					<corner>
+						<x>248</x>
+						<y>128</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>272</x>
+						<y>112</y>
+					</min>
+					<max>
+						<x>288</x>
+						<y>112</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>reductions</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>248</x>
+						<y>208</y>
+					</corner>
+					<corner>
+						<x>260</x>
+						<y>208</y>
+					</corner>
+					<corner>
+						<x>272</x>
+						<y>224</y>
+					</corner>
+					<corner>
+						<x>260</x>
+						<y>240</y>
+					</corner>
+					<corner>
+						<x>248</x>
+						<y>240</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>272</x>
+						<y>224</y>
+					</min>
+					<max>
+						<x>288</x>
+						<y>224</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>drives</name>
+				<type>NslDoutDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>584</x>
+						<y>168</y>
+					</corner>
+					<corner>
+						<x>596</x>
+						<y>168</y>
+					</corner>
+					<corner>
+						<x>608</x>
+						<y>184</y>
+					</corner>
+					<corner>
+						<x>596</x>
+						<y>200</y>
+					</corner>
+					<corner>
+						<x>584</x>
+						<y>200</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>568</x>
+						<y>184</y>
+					</min>
+					<max>
+						<x>584</x>
+						<y>184</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void initModule()
+{
+	appetitiveAlpha=0.000025;
+	aversiveAlpha=0.1;
+	tonicInput=new double[]{0,0,-1.25};
+	NslCanvas c=null;
+	c=nslAddTemporalCanvas("output", "drives", thirst, nslMin(0,nslMinValue(d_min)), nslMax(1,nslMaxValue(d_max)), NslColor.getColor("BLUE"));
+	c.addVariable(hunger, NslColor.getColor("RED"));
+	if(numDrives&gt;2)
+		c.addVariable(fear, NslColor.getColor("GREEN"));
+	drives.nslSetAccess('W');
+}
+
+public void initRun()
+{
+	init();
+}
+
+public void initTrain()
+{
+	init();
+}
+
+protected void init()
+{
+	incentives_wm=0;
+}
+
+public void simTrain()
+{
+	process();
+}
+
+public void simRun()
+{
+	process();
+}
+
+protected void process()
+{
+	if(system.getCurrentTime()&gt;10*system.getDelta())
+	{
+		for(int i=0; i&lt;2; i++)
+			drives.set(i, nslMin(d_max[i], nslMax(d_min[i], drives.get(i)+appetitiveAlpha*(d_max[i]-drives.get(i)+tonicInput[i])-reductions.get(i)*nslAbs(drives.get(i)-d_min[i])+(incentives.get(i)-incentives_wm.get(i))*nslAbs(d_max[i]-drives.get(i)))));
+		if(numDrives&gt;2)
+			drives.set(2, nslMin(d_max[2], nslMax(d_min[2], drives.get(2)-aversiveAlpha*(drives.get(2)-d_min[2]+tonicInput[2])-reductions.get(2)*nslAbs(d_max[2]-drives.get(2))+(incentives.get(2)-incentives_wm.get(2))*nslAbs(d_max[2]-drives.get(2)))));
+	}
+	thirst.set(drives.get(0));
+	hunger.set(drives.get(1));
+	if(numDrives&gt;2)
+		fear.set(drives.get(2));
+	incentives_wm.set(incentives.get());
+}
+</methods>
+	</nslm>
+</module>

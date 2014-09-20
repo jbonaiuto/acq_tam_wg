@@ -1,0 +1,200 @@
+package acq_tam_wg.ACQ_TAM_WG.v1_1_1.src;
+nslImport javax.media.j3d.*;
+nslImport org.openmali.vecmath2.*;
+nslImport com.sun.j3d.utils.universe.*;
+nslImport javax.vecmath.*;
+nslImport acq_tam_wg.WGCritic.v1_1_1.src.*;
+nslImport acq_tam_wg.TAMCritic.v1_1_1.src.*;
+nslImport acq_tam_wg.MotivationalSchema.v1_1_1.src.*;
+nslImport acq_tam_wg.IncentiveStimuli.v1_1_1.src.*;
+nslImport acq_tam_wg.Actor.v1_1_1.src.*;
+nslImport acq_tam_wg.SimWorld.v1_1_1.src.*;
+nslImport acq_tam_wg.ModelPerspectiveView.v1_1_1.src.*;
+nslImport acq_tam_wg.WorldGraph.v1_1_1.src.*;
+nslImport acq_tam_wg.PPC.v1_1_2.src.*;
+
+nslModel ACQ_TAM_WG(){
+
+//NSL Version: 3_0_n
+//Sif Version: 9
+//libNickName: acq_tam_wg
+//moduleName:  ACQ_TAM_WG
+//versionName: 1_1_1
+//floatSubModules: true
+
+
+//variables 
+public MotivationalSchema motivationalSchema(numDrives, angleRepSize, mapSize, d_min, d_max); // 
+public IncentiveStimuli incentives(angleRepSize, numDrives, incentiveSigma); // 
+public Actor actor(angleRepSize, numDrives, signalThreshold, actionThreshold); // 
+public SimWorld world(numDrives, mapSize, maxNodes); // 
+public ModelPerspectiveView modelView(angleRepSize, actionThreshold); // 
+public WorldGraph wg(angleRepSize, numDrives, d_min, d_max, maxNodes, wgDesirabilitySigma); // 
+private double d_min[/**/]; // 
+private double d_max[/**/]; // 
+private int angleRepSize; // 
+private double affordanceSigma; // 
+private int numDrives; // 
+private int maxTaxons; // 
+private int mapSize; // 
+private int maxNodes; // 
+private double wgDesirabilitySigma; // 
+private BackgroundSound sound; // 
+private double headDirectionSigma; // 
+private double signalThreshold; // 
+private double incentiveSigma; // 
+private double tamDesirabilitySigma; // 
+private double actionThreshold; // 
+public PPC ppc(angleRepSize, maxNodes, affordanceSigma); // 
+private double rewardTime; // 
+
+//methods 
+public void initSys()
+{
+	system.setRunDelta(0.001);
+	system.setTrainDelta(0.001);
+	system.setRunEndTime(5.0);
+	system.setTrainEndTime(5.0);
+	system.setNumTrainEpochs(50);
+	system.setNumRunEpochs(50);
+
+	numDrives=3;
+	angleRepSize=100;
+	maxTaxons=8;
+	affordanceSigma=.1;
+	incentiveSigma=.25;
+	wgDesirabilitySigma=.25;
+	tamDesirabilitySigma=.25;
+	headDirectionSigma=.25;
+	mapSize=32;
+	maxNodes=10;
+	signalThreshold=.1;
+	//actionThreshold=.75;
+	actionThreshold=.5;
+	d_min=new double[]{0.0, 0.0, -1.0};
+	d_max=new double[]{1.0, 1.0, 0.0};
+}
+
+public void initModule()
+{
+	nslSetRunDelta(0.001);
+	nslSetTrainDelta(0.001);
+	nslDeclareProtocol("tMaze","T-Maze");
+	system.addProtocolToAll("tMaze");
+	nslDeclareProtocol("eightArmMaze","8-Arm Radial Maze");
+	system.addProtocolToAll("eightArmMaze");
+	nslDeclareProtocol("linearMaze", "Linear Maze");
+	system.addProtocolToAll("linearMaze");
+}
+
+public void manualProtocol()
+{
+	initSound();
+}
+
+public void tMazeProtocol()
+{
+	initWorld("maps/t_map.gif");
+	initModelView();
+}
+
+public void eightArmMazeProtocol()
+{
+	initWorld("maps/eight_arm_map.gif");
+	initModelView();	
+}
+
+public void linearMazeProtocol()
+{
+	initWorld("maps/linear_map.gif");
+	initModelView();
+}
+
+protected void initWorld(String mapFile)
+{
+	world.ndc=world.nslAdd3dCanvas("world","WORLD");
+	world.ndc.setGravityMagnitude(0.0f);
+	world.ndc.createMap(mapFile);
+	world.initView();
+	world.initNodes();
+	show("world");
+	world.ndc.nslDisplayFrame.refresh();
+}
+
+protected void initModelView()
+{
+	modelView.init(world.ndc);
+	ViewingPlatform vp=modelView.getVp();
+	KeyCustomBehavior keyBehavior=new KeyCustomBehavior(vp.getViewPlatformTransform(), modelView);
+	keyBehavior.setSchedulingBounds(world.ndc.getCanvasBounds());
+	keyBehavior.setMovementRate(0.7);
+	keyBehavior.setEnable(true);
+	vp.addChild( keyBehavior );
+	show("modelView");
+	modelView.modelPerspectiveCanvas.nslDisplayFrame.refresh();
+}
+
+protected void initSound()
+{
+	sound = world.ndc.addBackgroundSound( "sounds/background.wav" );
+	sound.setEnable(true);
+}
+
+public void simRun()
+{
+	/*if(system.getCurrentTime()<system.getRunDelta())
+	{
+		rewardTime=-1;
+		nslPrintln("reset");
+	}
+	if(rewardTime<0 && system.getCurrentTime()>system.getRunDelta() && (world.reductions.get(0)>0 || world.reductions.get(1)>0))
+	{
+		rewardTime=system.getCurrentTime();
+		nslPrintln(rewardTime);
+	}*/
+	//if(rewardTime>0 && nslAbs(system.getCurrentTime()-(rewardTime+.25))<=system.getRunDelta())
+	//{
+		/*TAMCritic tc=motivationalSchema.tamCritic;
+		double[] tamReinforcement=tc.getFinalReinforcement();
+		actor.updateLocalDesirability(tamReinforcement);
+		WGCritic wc=motivationalSchema.wgCritic;
+		double[] nodeReinforcement=wc.getFinalReinforcement();
+		wg.lastDiffNodeId=wg.currentNodeId.get();
+		wg.updateNodeDesirability(nodeReinforcement);*/
+	//	system.breakCycles();
+	//}
+}
+public void makeConn(){
+    nslConnect(ppc.affordanceDirOut,actor.executability);
+    nslConnect(ppc.affordanceDistOut,actor.distances);
+    nslConnect(incentives.incentiveDirection,actor.bottomUpDesirability);
+    nslConnect(actor.goalPosition,modelView.targetPosition);
+    nslConnect(actor.goSignal,modelView.goSignal);
+    nslConnect(actor.efferenceCopyOut,modelView.efferenceCopyIn);
+    nslConnect(actor.currentLocalDesirability,motivationalSchema.currentLocalDesirability);
+    nslConnect(modelView.currentMapPosition,world.avatarMapPosition);
+    nslConnect(modelView.efferenceCopyOut,actor.efferenceCopyIn);
+    nslConnect(modelView.currentWorldPosition,world.avatarWorldPosition);
+    nslConnect(modelView.currentWorldPosition,incentives.currentPosition);
+    nslConnect(modelView.currentWorldPosition,ppc.currentPosition);
+    nslConnect(modelView.currentWorldPosition,actor.currentPosition);
+    nslConnect(modelView.currentWorldPosition,wg.currentPosition);
+    nslConnect(motivationalSchema.motivationalState,incentives.motivationalState);
+    nslConnect(motivationalSchema.motivationalState,actor.motivationalState);
+    nslConnect(motivationalSchema.motivationalState,wg.motivations);
+    nslConnect(motivationalSchema.nodeReinforcement,wg.reinforcement);
+    nslConnect(motivationalSchema.tamReinforcement,actor.tamReinforcement);
+    nslConnect(world.incentives,motivationalSchema.incentives);
+    nslConnect(world.reductions,motivationalSchema.reductions);
+    nslConnect(world.currentNodeCenter,wg.currentNodeCenter);
+    nslConnect(world.incentivePosition,incentives.incentivePosition);
+    nslConnect(world.adjacentNodeCenters,wg.adjacentNodeCenters);
+    nslConnect(world.affordances,ppc.adjacentNodeCenters);
+    nslConnect(wg.currentNodeId,motivationalSchema.currentNodeId);
+    nslConnect(wg.lastNodeDist,motivationalSchema.lastNodeDist);
+    nslConnect(wg.currentNodeDesirability,motivationalSchema.currentNodeDesirability);
+    nslConnect(wg.desirabilityBias,actor.topDownDesirability);
+    nslConnect(wg.lastNodeDesirability,motivationalSchema.lastNodeDesirability);
+}
+}//end ACQ_TAM_WG
+

@@ -1,0 +1,628 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>TAMCritic</name>
+	<version>1_1_2</version>
+	<type>NslJavaModule</type>
+	<arguments>int maxNodes, int numDrives, double[] d_min, double[] d_max, double maxDesirability</arguments>
+	<buffering>true</buffering>
+	<imports>
+	</imports>
+	<variables>
+		<variable type="BasicVariable">
+			<name>nodeDesirability</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDouble2</type>
+			<params>maxNodes, numDrives</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>currentNodeId</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>lastNodeId</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>alpha</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>appetitiveDriveGamma</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>rewards</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>motivations</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>currentNodeIdIn</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinInt</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDinInt0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>reinforcement</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>aversiveDriveGamma</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>TAMCritic</module>
+		<version>1_1_2</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>140</x>
+				<y>60</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>116</x>
+				<y>60</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>116</x>
+						<y>60</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>116</x>
+						<y>60</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>rewards</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>29</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>29</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>29</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>29</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>motivations</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>10</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>10</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>10</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>10</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinInt0">
+				<name>currentNodeIdIn</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>52</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>52</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>52</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>52</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>reinforcement</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>116</x>
+						<y>30</y>
+					</min>
+					<max>
+						<x>140</x>
+						<y>30</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>116</x>
+						<y>30</y>
+					</coordinate>
+					<coordinate>
+						<x>140</x>
+						<y>30</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>rewards</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>224</x>
+						<y>120</y>
+					</corner>
+					<corner>
+						<x>236</x>
+						<y>120</y>
+					</corner>
+					<corner>
+						<x>248</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>236</x>
+						<y>152</y>
+					</corner>
+					<corner>
+						<x>224</x>
+						<y>152</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>248</x>
+						<y>136</y>
+					</min>
+					<max>
+						<x>264</x>
+						<y>136</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>motivations</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>224</x>
+						<y>200</y>
+					</corner>
+					<corner>
+						<x>236</x>
+						<y>200</y>
+					</corner>
+					<corner>
+						<x>248</x>
+						<y>216</y>
+					</corner>
+					<corner>
+						<x>236</x>
+						<y>232</y>
+					</corner>
+					<corner>
+						<x>224</x>
+						<y>232</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>248</x>
+						<y>216</y>
+					</min>
+					<max>
+						<x>264</x>
+						<y>216</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>currentNodeIdIn</name>
+				<type>NslDinInt0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>224</x>
+						<y>48</y>
+					</corner>
+					<corner>
+						<x>236</x>
+						<y>48</y>
+					</corner>
+					<corner>
+						<x>248</x>
+						<y>64</y>
+					</corner>
+					<corner>
+						<x>236</x>
+						<y>80</y>
+					</corner>
+					<corner>
+						<x>224</x>
+						<y>80</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>248</x>
+						<y>64</y>
+					</min>
+					<max>
+						<x>264</x>
+						<y>64</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>reinforcement</name>
+				<type>NslDoutDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>512</x>
+						<y>216</y>
+					</corner>
+					<corner>
+						<x>524</x>
+						<y>216</y>
+					</corner>
+					<corner>
+						<x>536</x>
+						<y>232</y>
+					</corner>
+					<corner>
+						<x>524</x>
+						<y>248</y>
+					</corner>
+					<corner>
+						<x>512</x>
+						<y>248</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>496</x>
+						<y>232</y>
+					</min>
+					<max>
+						<x>512</x>
+						<y>232</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void initModule()
+{
+	// learning rate
+	alpha=0.1;
+	// discount rate
+	appetitiveDriveGamma=0.5;
+	aversiveDriveGamma=0.01;
+}
+
+public void reset()
+{
+	// Reset node Ids
+	lastNodeId=-1;
+	currentNodeId=-1;
+}
+
+/**
+ * Executed before each training epoch
+ */
+public void initTrain()
+{
+	reset();
+}
+
+/**
+ * Executed at the start of each run epoch
+ */
+public void initRun()
+{
+	reset();
+}
+
+/**
+ * Executed during each training cycle
+ */
+public void simTrain()
+{
+	// Update node IDs
+	updateNodeIds();
+
+	// Update value
+	updateStateValues();
+
+	// Update reinforcement
+	updateReinforcement();
+}
+
+/**
+ * Executed during each run cycle
+ */
+public void simRun()
+{
+	// Update node IDs
+	updateNodeIds();
+
+	// Update reinforcement
+	updateReinforcement();
+}
+
+/**
+ * Update current and last node ID
+ */
+protected void updateNodeIds()
+{
+	if(currentNodeIdIn.get()&gt;-1)
+	{
+		if(currentNodeIdIn.get()!=currentNodeId &amp;&amp; currentNodeId&gt;-1)
+			lastNodeId=currentNodeId;
+		currentNodeId=currentNodeIdIn.get();
+	}
+}
+
+/**
+ * Update value of last node
+ */
+protected void updateStateValues()
+{
+	// For each drive
+	for(int i=0; i&lt;numDrives; i++)
+	{
+		// Initialize TD error
+		double tdError=0;
+
+		// If we know what node we're in
+		if(currentNodeIdIn.get()&gt;-1)
+		{
+			// If we've moved to a new node, update the last node's desirability
+			if(lastNodeId!=currentNodeIdIn.get() &amp;&amp; lastNodeId&gt;-1)
+			{
+				// compute TD error
+				if(i&lt;2)
+					tdError=(motivations.get(i)-d_min[i])/(d_max[i]-d_min[i])*(appetitiveDriveGamma*nodeDesirability.get(currentNodeIdIn.get(),i)-nodeDesirability.get(lastNodeId,i));
+				else
+					tdError=(motivations.get(i)-d_min[i])/(d_max[i]-d_min[i])*(aversiveDriveGamma*nodeDesirability.get(currentNodeIdIn.get(),i)-nodeDesirability.get(lastNodeId,i));
+
+				// update last node desirability
+				nodeDesirability.set(lastNodeId, i,nslMin(d_max[i], nodeDesirability.get(lastNodeId, i)+alpha*tdError));
+			}
+
+			// Compute TD error for current node
+			tdError=rewards.get(i)*(motivations.get(i)-d_min[i])/(d_max[i]-d_min[i]);
+
+			// Update current node with rewards
+			nodeDesirability.set(currentNodeIdIn.get(), i, nslMin(d_max[i], nodeDesirability.get(currentNodeIdIn.get(), i)+alpha*tdError));
+		}
+	}
+}
+
+/**
+ * Update reinforcement output
+ */
+protected void updateReinforcement()
+{
+	if(currentNodeIdIn.get()&gt;-1)
+		reinforcement.set(nodeDesirability.get(currentNodeIdIn.get()));
+}
+
+/**
+ * Save state values to file
+ */
+public void saveWeights(String filename)
+{
+	NslTextFile file(filename);
+	file.open('W');
+	for(int i=0; i&lt;maxNodes; i++)
+	{
+		for(int j=0; j&lt;numDrives; j++)
+		{
+			file.puts(nodeDesirability.get(i, j));
+		}
+	}
+	file.flush();
+	file.close();
+}
+
+/**
+ * Load state values from file
+ */
+public void loadWeights(String filename)
+{
+	NslTextFile file(filename);
+	file.open('R');
+	for(int i=0; i&lt;maxNodes; i++)
+	{
+		for(int j=0; j&lt;numDrives; j++)
+		{
+			nodeDesirability.set(i, j, Double.parseDouble(file.gets()));
+		}
+	}
+	file.close();
+}
+</methods>
+	</nslm>
+</module>

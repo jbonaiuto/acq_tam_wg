@@ -1,0 +1,5 @@
+nsl protocol "linearMaze"
+
+nsl call aCQ_TAM_WG loadWeights /home/jbonaiuto/School/USC/BrainSimLab/Projects/ACQ-TAM-WG/project/trunk/acq_tam_wg/ACQ_TAM_WG/v1_1_2/data/linear_post
+
+nsl run

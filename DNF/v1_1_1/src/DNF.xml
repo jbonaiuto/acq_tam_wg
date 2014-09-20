@@ -1,0 +1,594 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>DNF</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<arguments>int dim</arguments>
+	<buffering>false</buffering>
+	<imports>
+	</imports>
+	<variables>
+		<variable type="InputPort">
+			<name>input</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>dim</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>output</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>dim</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>weightKernel</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>2*dim</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>w_excite</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>sigma_w</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>w_inhibit</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>h</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>u</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>dim</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>tau</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>beta</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>u_0</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>q</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>noise</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>dim</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>initialized</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>boolean</categoryType>
+			<dimensions>0</dimensions>
+			<type>boolean</type>
+			<params></params>
+			<inits>false</inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>DNF</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>100</x>
+				<y>48</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>80</x>
+				<y>48</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="NslDinDouble1">
+				<name>input</name>
+				<parameters>dim</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>26</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>26</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>26</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>26</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>output</name>
+				<parameters>dim</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>76</x>
+						<y>26</y>
+					</min>
+					<max>
+						<x>100</x>
+						<y>26</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>76</x>
+						<y>26</y>
+					</coordinate>
+					<coordinate>
+						<x>100</x>
+						<y>26</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>80</x>
+						<y>48</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>80</x>
+						<y>48</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>input</name>
+				<type>NslDinDouble1</type>
+				<parameters>dim</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>248</x>
+						<y>168</y>
+					</corner>
+					<corner>
+						<x>260</x>
+						<y>168</y>
+					</corner>
+					<corner>
+						<x>272</x>
+						<y>184</y>
+					</corner>
+					<corner>
+						<x>260</x>
+						<y>200</y>
+					</corner>
+					<corner>
+						<x>248</x>
+						<y>200</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>272</x>
+						<y>184</y>
+					</min>
+					<max>
+						<x>288</x>
+						<y>184</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>output</name>
+				<type>NslDoutDouble1</type>
+				<parameters>dim</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>432</x>
+						<y>176</y>
+					</corner>
+					<corner>
+						<x>444</x>
+						<y>176</y>
+					</corner>
+					<corner>
+						<x>456</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>444</x>
+						<y>208</y>
+					</corner>
+					<corner>
+						<x>432</x>
+						<y>208</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>416</x>
+						<y>192</y>
+					</min>
+					<max>
+						<x>432</x>
+						<y>192</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void initModule()
+{
+	h=-1;
+	tau=.075;
+	beta=1.5;
+	u_0=0.0;
+	w_excite=13.0;
+	w_inhibit=20.0;
+	sigma_w=20.0;
+	q=5.0;
+	h.nslSetAccess('W');
+	w_excite.nslSetAccess('W');
+	w_inhibit.nslSetAccess('W');
+	sigma_w.nslSetAccess('W');
+	q.nslSetAccess('W');
+	updateWeightKernel();
+	if(!initialized)
+	{
+		//nslAddSpatialCanvas("output", "weight", weightKernel, -1, 1);
+		//nslAddSpatialCanvas("output", "output", output, 0, 1);
+		nslSetColumns(1,"output");
+		addPanel("dNFParameters", "input");
+		addLabelToPanel("noiseStrength", "dNFParameters", "input");
+		NslSlider ns_q=addSliderToPanel("noiseStrength", "dNFParameters", "input", NslSlider.HORIZONTAL);
+		ns_q.setMinimum(0);
+		ns_q.setMaximum(10);
+		ns_q.setValue((int)q.get());
+		addLabelToPanel("h", "dNFParameters", "input");
+		NslSlider ns_h=addSliderToPanel("h", "dNFParameters", "input", NslSlider.HORIZONTAL);
+		ns_h.setMinimum(-5);
+		ns_h.setMaximum(0);
+		ns_h.setValue((int)h.get());
+		addLabelToPanel("sigma_w", "dNFParameters", "input");
+		NslSlider ns_sigma_w=addSliderToPanel("sigma_w", "dNFParameters", "input", NslSlider.HORIZONTAL);
+		ns_sigma_w.setMinimum(0);
+		ns_sigma_w.setMaximum(20);
+		ns_sigma_w.setValue((int)sigma_w.get());
+		addLabelToPanel("w_excite", "dNFParameters", "input");
+		NslSlider ns_w_excite=addSliderToPanel("w_excite", "dNFParameters", "input", NslSlider.HORIZONTAL);
+		ns_w_excite.setMinimum(0);
+		ns_w_excite.setMaximum(2000);
+		ns_w_excite.setValue((int)(w_excite.get()*100));
+		addLabelToPanel("w_inhibit", "dNFParameters", "input");
+		NslSlider ns_w_inhibit=addSliderToPanel("w_inhibit", "dNFParameters", "input", NslSlider.HORIZONTAL);
+		ns_w_inhibit.setMinimum(0);
+		ns_w_inhibit.setMaximum(2000);
+		ns_w_inhibit.setValue((int)(w_inhibit.get()*100));
+		initialized=true;
+	}
+}
+
+public void initRun()
+{
+	init();
+}
+
+public void initTrain()
+{
+	init();
+}
+
+public void init()
+{
+	output=0;
+	u=0;
+}
+
+public void hValueChanged(int value)
+{
+	if(initialized)
+	{
+		h=(double)value;
+	}
+}
+
+public void sigma_wValueChanged(int value)
+{
+	if(initialized)
+	{
+		sigma_w=(double)value;
+		updateWeightKernel();
+	}
+}
+
+public void w_exciteValueChanged(int value)
+{
+	if(initialized)
+	{
+		w_excite=(double)(value/100.0);
+		updateWeightKernel();
+	}
+}
+
+public void w_inhibitValueChanged(int value)
+{
+	if(initialized)
+	{
+		w_inhibit=(double)(value/100.0);
+		updateWeightKernel();
+	}
+}
+
+public void noiseStrengthValueChanged(int value)
+{
+	if(initialized)
+	{
+		q=value;
+	}
+}
+
+public void updateWeightKernel()
+{
+	for(int i=0; i&lt;dim*2; i++)
+	{
+		weightKernel[i]=w_excite*nslExp((double)(-(i-dim)*(i-dim))/(2.0*sigma_w*sigma_w))-w_inhibit;
+	}
+}
+
+public void simRun()
+{
+	process();
+}
+
+public void simTrain()
+{
+	process();
+}
+
+protected void process()
+{
+	u=nslDiff(u, tau.get(), -u + h + input + nslConv(weightKernel, output) + q*nslRandom(noise));
+	output=1.0/(1.0+nslExp(-beta*(u-u_0)));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</methods>
+	</nslm>
+</module>

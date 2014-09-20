@@ -1,0 +1,1624 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>ACQ_TAM_WG</name>
+	<version>1_1_2</version>
+	<type>model</type>
+	<arguments></arguments>
+	<buffering>true</buffering>
+	<imports>
+		<import>javax.media.j3d.*</import>
+		<import>org.openmali.vecmath2.*</import>
+		<import>com.sun.j3d.utils.universe.*</import>
+		<import>javax.vecmath.*</import>
+		<import>acq_tam_wg.WGCritic.v1_1_1.src.*</import>
+		<import>acq_tam_wg.TAMCritic.v1_1_1.src.*</import>
+	</imports>
+	<variables>
+		<variable type="SubModule">
+			<name>ratBrain</name>
+			<access>public</access>
+			<scope>local</scope>
+			<type>RatBrain</type>
+			<params>angleRepSize, numDrives, maxNodes, actionThreshold</params>
+			<inits></inits>
+			<comment></comment>
+			<library>acq_tam_wg</library>
+			<version>v1_1_1</version>
+		</variable>
+		<variable type="SubModule">
+			<name>world</name>
+			<access>public</access>
+			<scope>local</scope>
+			<type>SimWorld</type>
+			<params>numDrives, mapSize, maxNodes</params>
+			<inits></inits>
+			<comment></comment>
+			<library>acq_tam_wg</library>
+			<version>v1_1_2</version>
+		</variable>
+		<variable type="BasicVariable">
+			<name>sound</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>other</categoryType>
+			<dimensions>0</dimensions>
+			<type>BackgroundSound</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="SubModule">
+			<name>avatar</name>
+			<access>public</access>
+			<scope>local</scope>
+			<type>ModelAvatar</type>
+			<params>angleRepSize, actionThreshold</params>
+			<inits></inits>
+			<comment></comment>
+			<library>acq_tam_wg</library>
+			<version>v1_1_1</version>
+		</variable>
+		<variable type="BasicVariable">
+			<name>angleRepSize</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>numDrives</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>mapSize</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>maxNodes</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>wgDesirabilitySigma</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>actionThreshold</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>randInitPosition</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>boolean</categoryType>
+			<dimensions>0</dimensions>
+			<type>boolean</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>randInitDrives</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>boolean</categoryType>
+			<dimensions>0</dimensions>
+			<type>boolean</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>ACQ_TAM_WG</module>
+		<version>1_1_2</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>100</x>
+				<y>100</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>100</x>
+				<y>100</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>100</x>
+						<y>100</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>100</x>
+						<y>100</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+		</inports>
+		<outports>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+			<iconInstance>
+				<instanceName>avatar</instanceName>
+				<parameters>angleRepSize, actionThreshold</parameters>
+				<icon>
+					<library>acq_tam_wg</library>
+					<module>ModelAvatar</module>
+					<version>1_1_1</version>
+					<bounds>
+						<min>
+							<x>76</x>
+							<y>104</y>
+						</min>
+						<max>
+							<x>296</x>
+							<y>164</y>
+						</max>
+					</bounds>
+					<shape>
+						<min>
+							<x>100</x>
+							<y>104</y>
+						</min>
+						<max>
+							<x>272</x>
+							<y>164</y>
+						</max>
+					</shape>
+					<parts>
+						<part type="rect">
+							<bounds>
+								<min>
+									<x>24</x>
+									<y>0</y>
+								</min>
+								<max>
+									<x>196</x>
+									<y>60</y>
+								</max>
+							</bounds>
+							<color>-1</color>
+							<coordinates>
+								<coordinate>
+									<x>24</x>
+									<y>0</y>
+								</coordinate>
+								<coordinate>
+									<x>196</x>
+									<y>60</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble1">
+							<name>currentMapPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>196</x>
+									<y>28</y>
+								</min>
+								<max>
+									<x>220</x>
+									<y>28</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>196</x>
+									<y>28</y>
+								</coordinate>
+								<coordinate>
+									<x>220</x>
+									<y>28</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>targetPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>15</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>15</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>15</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>15</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble0">
+							<name>goSignal</name>
+							<parameters></parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>46</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>46</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>46</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>46</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble1">
+							<name>currentWorldPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>196</x>
+									<y>12</y>
+								</min>
+								<max>
+									<x>220</x>
+									<y>12</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>196</x>
+									<y>12</y>
+								</coordinate>
+								<coordinate>
+									<x>220</x>
+									<y>12</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble0">
+							<name>currentOrientation</name>
+							<parameters></parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>196</x>
+									<y>48</y>
+								</min>
+								<max>
+									<x>220</x>
+									<y>48</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>196</x>
+									<y>48</y>
+								</coordinate>
+								<coordinate>
+									<x>220</x>
+									<y>48</y>
+								</coordinate>
+							</coordinates>
+						</part>
+					</parts>
+				</icon>
+			</iconInstance>
+			<iconInstance>
+				<instanceName>world</instanceName>
+				<parameters></parameters>
+				<icon>
+					<library>acq_tam_wg</library>
+					<module>SimWorld</module>
+					<version>1_1_2</version>
+					<bounds>
+						<min>
+							<x>376</x>
+							<y>9</y>
+						</min>
+						<max>
+							<x>508</x>
+							<y>101</y>
+						</max>
+					</bounds>
+					<shape>
+						<min>
+							<x>400</x>
+							<y>9</y>
+						</min>
+						<max>
+							<x>484</x>
+							<y>101</y>
+						</max>
+					</shape>
+					<parts>
+						<part type="rect">
+							<bounds>
+								<min>
+									<x>24</x>
+									<y>0</y>
+								</min>
+								<max>
+									<x>108</x>
+									<y>92</y>
+								</max>
+							</bounds>
+							<color>-1</color>
+							<coordinates>
+								<coordinate>
+									<x>24</x>
+									<y>0</y>
+								</coordinate>
+								<coordinate>
+									<x>108</x>
+									<y>92</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>avatarMapPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>30</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>30</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>30</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>30</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble1">
+							<name>incentives</name>
+							<parameters>numDrives</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>108</x>
+									<y>11</y>
+								</min>
+								<max>
+									<x>132</x>
+									<y>11</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>108</x>
+									<y>11</y>
+								</coordinate>
+								<coordinate>
+									<x>132</x>
+									<y>11</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble1">
+							<name>reductions</name>
+							<parameters>numDrives</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>108</x>
+									<y>22</y>
+								</min>
+								<max>
+									<x>132</x>
+									<y>22</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>108</x>
+									<y>22</y>
+								</coordinate>
+								<coordinate>
+									<x>132</x>
+									<y>22</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble1">
+							<name>currentNodeCenter</name>
+							<parameters></parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>108</x>
+									<y>33</y>
+								</min>
+								<max>
+									<x>132</x>
+									<y>33</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>108</x>
+									<y>33</y>
+								</coordinate>
+								<coordinate>
+									<x>132</x>
+									<y>33</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble2">
+							<name>incentivePosition</name>
+							<parameters>numDrives, 2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>108</x>
+									<y>44</y>
+								</min>
+								<max>
+									<x>132</x>
+									<y>44</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>108</x>
+									<y>44</y>
+								</coordinate>
+								<coordinate>
+									<x>132</x>
+									<y>44</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble2">
+							<name>affordances</name>
+							<parameters>maxNodes, 2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>108</x>
+									<y>55</y>
+								</min>
+								<max>
+									<x>132</x>
+									<y>55</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>108</x>
+									<y>55</y>
+								</coordinate>
+								<coordinate>
+									<x>132</x>
+									<y>55</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>avatarWorldPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>60</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>60</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>60</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>60</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble2">
+							<name>adjacentNodeCenters</name>
+							<parameters>maxNodes, 2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>108</x>
+									<y>66</y>
+								</min>
+								<max>
+									<x>132</x>
+									<y>66</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>108</x>
+									<y>66</y>
+								</coordinate>
+								<coordinate>
+									<x>132</x>
+									<y>66</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble1">
+							<name>currentNodeWorldPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>108</x>
+									<y>77</y>
+								</min>
+								<max>
+									<x>132</x>
+									<y>77</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>108</x>
+									<y>77</y>
+								</coordinate>
+								<coordinate>
+									<x>132</x>
+									<y>77</y>
+								</coordinate>
+							</coordinates>
+						</part>
+					</parts>
+				</icon>
+			</iconInstance>
+			<iconInstance>
+				<instanceName>ratBrain</instanceName>
+				<parameters>angleRepSize</parameters>
+				<icon>
+					<library>acq_tam_wg</library>
+					<module>RatBrain</module>
+					<version>1_1_1</version>
+					<bounds>
+						<min>
+							<x>568</x>
+							<y>48</y>
+						</min>
+						<max>
+							<x>708</x>
+							<y>156</y>
+						</max>
+					</bounds>
+					<shape>
+						<min>
+							<x>592</x>
+							<y>48</y>
+						</min>
+						<max>
+							<x>684</x>
+							<y>156</y>
+						</max>
+					</shape>
+					<parts>
+						<part type="rect">
+							<bounds>
+								<min>
+									<x>24</x>
+									<y>0</y>
+								</min>
+								<max>
+									<x>116</x>
+									<y>108</y>
+								</max>
+							</bounds>
+							<color>-1</color>
+							<coordinates>
+								<coordinate>
+									<x>24</x>
+									<y>0</y>
+								</coordinate>
+								<coordinate>
+									<x>116</x>
+									<y>108</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble2">
+							<name>incentivesPosition</name>
+							<parameters>numDrives, 2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>9</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>9</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>9</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>9</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>currentMapPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>18</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>18</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>18</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>18</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble0">
+							<name>currentOrientation</name>
+							<parameters></parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>27</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>27</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>27</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>27</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble1">
+							<name>goalPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>116</x>
+									<y>36</y>
+								</min>
+								<max>
+									<x>140</x>
+									<y>36</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>116</x>
+									<y>36</y>
+								</coordinate>
+								<coordinate>
+									<x>140</x>
+									<y>36</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDoutDouble0">
+							<name>goSignal</name>
+							<parameters></parameters>
+							<portDirection>L</portDirection>
+							<signalType>O</signalType>
+							<bounds>
+								<min>
+									<x>116</x>
+									<y>72</y>
+								</min>
+								<max>
+									<x>140</x>
+									<y>72</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>116</x>
+									<y>72</y>
+								</coordinate>
+								<coordinate>
+									<x>140</x>
+									<y>72</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>reductions</name>
+							<parameters>numDrives</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>36</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>36</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>36</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>36</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>incentiveStrength</name>
+							<parameters>numDrives</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>45</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>45</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>45</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>45</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>currentNodeCenter</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>54</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>54</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>54</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>54</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble2">
+							<name>affordances</name>
+							<parameters>maxNodes, 2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>63</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>63</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>63</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>63</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble2">
+							<name>adjacentNodeCenters</name>
+							<parameters>maxNodes, 2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>72</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>72</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>72</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>72</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>currentWorldPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>81</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>81</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>81</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>81</y>
+								</coordinate>
+							</coordinates>
+						</part>
+						<part type="NslDinDouble1">
+							<name>currentNodeWorldPosition</name>
+							<parameters>2</parameters>
+							<portDirection>L</portDirection>
+							<signalType>E</signalType>
+							<bounds>
+								<min>
+									<x>0</x>
+									<y>90</y>
+								</min>
+								<max>
+									<x>24</x>
+									<y>90</y>
+								</max>
+							</bounds>
+							<color>-16711936</color>
+							<coordinates>
+								<coordinate>
+									<x>0</x>
+									<y>90</y>
+								</coordinate>
+								<coordinate>
+									<x>24</x>
+									<y>90</y>
+								</coordinate>
+							</coordinates>
+						</part>
+					</parts>
+				</icon>
+			</iconInstance>
+		</icons>
+		<connections>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>296</x>
+					<y>132</y>
+				</vertex>
+				<vertex>
+					<x>376</x>
+					<y>39</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>avatar</name>
+				<portIndex>1</portIndex>
+				<portName>currentMapPosition</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>world</name>
+				<portIndex>1</portIndex>
+				<portName>avatarMapPosition</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>296</x>
+					<y>116</y>
+				</vertex>
+				<vertex>
+					<x>376</x>
+					<y>69</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>avatar</name>
+				<portIndex>4</portIndex>
+				<portName>currentWorldPosition</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>world</name>
+				<portIndex>7</portIndex>
+				<portName>avatarWorldPosition</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>296</x>
+					<y>152</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>75</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>avatar</name>
+				<portIndex>5</portIndex>
+				<portName>currentOrientation</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>3</portIndex>
+				<portName>currentOrientation</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>508</x>
+					<y>53</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>57</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>world</name>
+				<portIndex>5</portIndex>
+				<portName>incentivePosition</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>1</portIndex>
+				<portName>incentivesPosition</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>508</x>
+					<y>20</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>93</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>world</name>
+				<portIndex>2</portIndex>
+				<portName>incentives</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>7</portIndex>
+				<portName>incentiveStrength</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>296</x>
+					<y>132</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>66</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>avatar</name>
+				<portIndex>1</portIndex>
+				<portName>currentMapPosition</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>2</portIndex>
+				<portName>currentMapPosition</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>508</x>
+					<y>42</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>102</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>world</name>
+				<portIndex>4</portIndex>
+				<portName>currentNodeCenter</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>8</portIndex>
+				<portName>currentNodeCenter</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>508</x>
+					<y>64</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>111</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>world</name>
+				<portIndex>6</portIndex>
+				<portName>affordances</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>9</portIndex>
+				<portName>affordances</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>508</x>
+					<y>75</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>120</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>world</name>
+				<portIndex>8</portIndex>
+				<portName>adjacentNodeCenters</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>10</portIndex>
+				<portName>adjacentNodeCenters</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="6">
+				<vertex>
+					<x>708</x>
+					<y>120</y>
+				</vertex>
+				<vertex>
+					<x>728</x>
+					<y>120</y>
+				</vertex>
+				<vertex>
+					<x>728</x>
+					<y>192</y>
+				</vertex>
+				<vertex>
+					<x>72</x>
+					<y>192</y>
+				</vertex>
+				<vertex>
+					<x>72</x>
+					<y>152</y>
+				</vertex>
+				<vertex>
+					<x>76</x>
+					<y>150</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>ratBrain</name>
+				<portIndex>5</portIndex>
+				<portName>goSignal</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>avatar</name>
+				<portIndex>3</portIndex>
+				<portName>goSignal</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>508</x>
+					<y>31</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>84</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>world</name>
+				<portIndex>3</portIndex>
+				<portName>reductions</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>6</portIndex>
+				<portName>reductions</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="6">
+				<vertex>
+					<x>708</x>
+					<y>84</y>
+				</vertex>
+				<vertex>
+					<x>736</x>
+					<y>88</y>
+				</vertex>
+				<vertex>
+					<x>736</x>
+					<y>200</y>
+				</vertex>
+				<vertex>
+					<x>64</x>
+					<y>200</y>
+				</vertex>
+				<vertex>
+					<x>64</x>
+					<y>120</y>
+				</vertex>
+				<vertex>
+					<x>76</x>
+					<y>119</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>ratBrain</name>
+				<portIndex>4</portIndex>
+				<portName>goalPosition</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>avatar</name>
+				<portIndex>2</portIndex>
+				<portName>targetPosition</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>296</x>
+					<y>116</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>129</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>avatar</name>
+				<portIndex>4</portIndex>
+				<portName>currentWorldPosition</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>11</portIndex>
+				<portName>currentWorldPosition</portName>
+			</destinationPort>
+			</connection>
+			<connection>
+			<color>-16777216</color>
+			<vertices number="2">
+				<vertex>
+					<x>508</x>
+					<y>86</y>
+				</vertex>
+				<vertex>
+					<x>568</x>
+					<y>138</y>
+				</vertex>
+			</vertices>
+			<sourcePort type="icon">
+				<name>world</name>
+				<portIndex>9</portIndex>
+				<portName>currentNodeWorldPosition</portName>
+			</sourcePort>
+			<destinationPort type="icon">
+				<name>ratBrain</name>
+				<portIndex>12</portIndex>
+				<portName>currentNodeWorldPosition</portName>
+			</destinationPort>
+			</connection>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void initSys()
+{
+	system.setRunDelta(0.001);
+	system.setTrainDelta(0.001);
+	system.setRunEndTime(4);
+	system.setTrainEndTime(2);
+	system.setNumTrainEpochs(75);
+	system.setNumRunEpochs(75);
+
+	numDrives=3;
+	angleRepSize=100;
+	mapSize=32;
+	maxNodes=50;
+	actionThreshold=.65;
+
+	randInitPosition=false;
+	randInitDrives=false;
+}
+
+public void initModule()
+{
+	nslSetRunDelta(0.001);
+	nslSetTrainDelta(0.001);
+	nslDeclareProtocol("tMaze","T-Maze");
+	system.addProtocolToAll("tMaze");
+	nslDeclareProtocol("eightArmMaze","8-Arm Radial Maze");
+	system.addProtocolToAll("eightArmMaze");
+	nslDeclareProtocol("linearMaze", "Linear Maze");
+	system.addProtocolToAll("linearMaze");
+	nslDeclareProtocol("largeMaze", "Large Maze");
+	system.addProtocolToAll("largeMaze");
+	nslDeclareProtocol("detourMaze1", "Detour Maze - 1");
+	system.addProtocolToAll("detourMaze1");
+	nslDeclareProtocol("detourMaze2", "Detour Maze - 2");
+	system.addProtocolToAll("detourMaze2");
+	nslDeclareProtocol("detourMaze3", "Detour Maze - 3");
+	system.addProtocolToAll("detourMaze3");
+}
+
+public void manualProtocol()
+{
+	initSound();
+}
+
+public void tMazeProtocol()
+{
+	avatar.setStartPosition(1.0, 22.0);
+	randInitDrives=true;
+	initWorld("maps/t_map.gif");
+	initModelView();
+}
+
+public void eightArmMazeProtocol()
+{
+	avatar.setStartPosition(1.0, 22.0);
+	randInitDrives=true;
+	initWorld("maps/eight_arm_map.gif");
+	initModelView();	
+}
+
+public void linearMazeProtocol()
+{
+	avatar.setStartPosition(0.0, 27.0);
+	initWorld("maps/linear_map.gif");
+	initModelView();
+}
+
+public void largeMazeProtocol()
+{
+	avatar.setStartPosition(1.0, 1.0);
+	initWorld("maps/small_map.gif");
+	initModelView();
+}
+
+public void detourMaze1Protocol()
+{
+	randInitPosition=true;
+	avatar.setStartPosition(1.0, 1.0);
+	initWorld("maps/detour_map1.gif");
+	initModelView();
+}
+
+public void detourMaze2Protocol()
+{
+	randInitPosition=true;
+	avatar.setStartPosition(1.0, 1.0);
+	initWorld("maps/detour_map2.gif");
+	initModelView();
+}
+
+public void detourMaze3Protocol()
+{
+	randInitPosition=true;
+	avatar.setStartPosition(1.0, 1.0);
+	initWorld("maps/detour_map3.gif");
+	initModelView();
+}
+
+protected void initWorld(String mapFile)
+{
+	world.ndc=world.nslAdd3dCanvas("desirability","WORLD",0f);
+	world.ndc.setGravityMagnitude(0.0f);
+	world.ndc.createMap(mapFile);
+	world.initView();
+	world.initNodes();
+	show("desirability");
+	world.ndc.nslDisplayFrame.refresh();
+}
+
+protected void initModelView()
+{
+	avatar.init(world.ndc);
+	ViewingPlatform vp=avatar.getVp();
+	KeyCustomBehavior keyBehavior=new KeyCustomBehavior(vp.getViewPlatformTransform(), avatar);
+	keyBehavior.setSchedulingBounds(world.ndc.getCanvasBounds());
+	keyBehavior.setMovementRate(0.7);
+	keyBehavior.setEnable(true);
+	vp.addChild( keyBehavior );
+	show("modelView");
+	avatar.modelPerspectiveCanvas.nslDisplayFrame.refresh();
+}
+
+protected void initSound()
+{
+	sound = world.ndc.addBackgroundSound( "sounds/background.wav" );
+	sound.setEnable(true);
+}
+
+/**
+ * Executed at the start of each run epoch
+ */
+public void initRun()
+{
+	ratBrain.motivationalSchema.hypothalamus.drives.set(0.0);
+	ratBrain.motivationalSchema.hypothalamus.drives.set(1, 1);
+}
+
+
+/**
+ * Executed before each training epoch
+ */
+public void initTrain()
+{
+	if(randInitDrives)
+	{
+		ratBrain.motivationalSchema.hypothalamus.drives.set(0.0);
+		if(nslRandom()&gt;=0.5)
+			ratBrain.motivationalSchema.hypothalamus.drives.set(0, .75);
+		else
+			ratBrain.motivationalSchema.hypothalamus.drives.set(1, .75);
+	}
+
+	if(randInitPosition)
+	{
+		int startIdx=(int)(nslRandom()*(world.nodeCount-1));
+		Vector3d worldCoord=world.ndc.convertToWorldCoordinate(new Point2d(world.nodeCenters[startIdx][0], world.nodeCenters[startIdx][1]));
+		avatar.setStartPosition(worldCoord.x, worldCoord.z);
+	}	
+}
+
+public void saveWeights(String filePrefix)
+{
+	ratBrain.motivationalSchema.wgCritic.saveWeights(filePrefix+"_wgCritic.txt");
+	ratBrain.motivationalSchema.tamCritic.saveWeights(filePrefix+"_tamCritic.txt");
+	ratBrain.wg.saveGraph(filePrefix+"_wg.txt");
+	ratBrain.actor.wgActor.saveWeights(filePrefix+"_wgActor.txt");
+	ratBrain.actor.tamActor.saveWeights(filePrefix+"_tamActor.txt");
+}
+
+public void loadWeights(String filePrefix)
+{
+	ratBrain.motivationalSchema.wgCritic.loadWeights(filePrefix+"_wgCritic.txt");
+	ratBrain.motivationalSchema.tamCritic.loadWeights(filePrefix+"_tamCritic.txt");
+	ratBrain.wg.loadGraph(filePrefix+"_wg.txt");
+	ratBrain.actor.wgActor.loadWeights(filePrefix+"_wgActor.txt");
+	ratBrain.actor.tamActor.loadWeights(filePrefix+"_tamActor.txt");
+}
+
+</methods>
+	</nslm>
+</module>

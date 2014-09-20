@@ -1,0 +1,76 @@
+package acq_tam_wg.TAMCritic.v1_1_1.src;
+
+nslJavaModule TAMCritic(int size, int numDrives, double[] d_min, double[] d_max){
+
+//NSL Version: 3_0_n
+//Sif Version: 9
+//libNickName: acq_tam_wg
+//moduleName:  TAMCritic
+//versionName: 1_1_1
+//floatSubModules: true
+
+
+//variables 
+public NslDinDouble1 rewards(numDrives); // 
+public NslDinDouble1 motivations(numDrives); // 
+private double gamma; // 
+private double[] rewards_wm; // 
+private double[] motivation_wm; // 
+private NslDouble1 predictorOutput(numDrives); // 
+private NslDouble1 lastPredictorOutput(numDrives); // 
+public NslDinInt0 currentNodeId(); // 
+private int lastNodeId; // 
+public NslDinDouble2 currentDesirability(numDrives, size); // 
+public NslDoutDouble1 reinforcement(numDrives); // 
+
+//methods 
+public void initModule()
+{
+	gamma=0.9;
+}
+
+public void reset()
+{
+	lastNodeId=-1;
+	rewards_wm=new double[numDrives];
+	motivation_wm=new double[numDrives];
+}
+
+public void simTrain()
+{
+	if(system.getCurrentTime()<system.getDelta())
+		reset();
+
+	updateReinforcement();
+
+	lastNodeId=currentNodeId.get();
+}
+
+protected void updateReinforcement()
+{
+	for(int i=0; i<numDrives; i++)
+	{
+		predictorOutput.set(i, nslSum(currentDesirability.get(i)));
+		reinforcement.set(i, 0);
+		if(currentNodeId.get()!=lastNodeId && lastNodeId>-1)
+		{
+			reinforcement.set(i, rewards_wm[i]+(motivations.get(i)-d_min[i])/(d_max[i]-d_min[i])*(gamma*predictorOutput.get(i)-lastPredictorOutput.get(i)));
+			rewards_wm[i]=rewards.get(i)*motivation_wm[i];
+		}
+		else
+			rewards_wm[i]=rewards_wm[i]+rewards.get(i)*motivation_wm[i];
+
+		motivation_wm[i]=motivations.get(i);
+
+		lastPredictorOutput.set(i,predictorOutput.get(i));
+	}
+}
+
+public double[] getFinalReinforcement()
+{
+	return rewards_wm;
+}
+public void makeConn(){
+}
+}//end TAMCritic
+

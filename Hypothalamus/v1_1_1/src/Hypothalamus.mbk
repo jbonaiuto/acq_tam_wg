@@ -1,0 +1,73 @@
+package acq_tam_wg.Hypothalamus.v1_1_1.src;
+
+nslJavaModule Hypothalamus(int numDrives, double[] d_min, double[] d_max){
+
+//NSL Version: 3_0_n
+//Sif Version: 9
+//libNickName: acq_tam_wg
+//moduleName:  Hypothalamus
+//versionName: 1_1_1
+//floatSubModules: true
+
+
+//variables 
+public NslDoutDouble1 drives(numDrives); // 
+public NslDinDouble1 incentives(numDrives); // 
+public NslDinDouble1 reductions(numDrives); // 
+private double alpha; // 
+private NslDouble0 thirst; // 
+private NslDouble0 hunger; // 
+private NslDouble0 fear; // 
+
+//methods 
+public void initModule()
+{
+	alpha=0.0005;
+	NslCanvas c=nslAddTemporalCanvas("output", "drives", thirst, nslMin(0,nslMinValue(d_min)), nslMax(1,nslMaxValue(d_max)), NslColor.getColor("BLUE"));
+	c.addVariable(hunger, NslColor.getColor("RED"));
+	c.addVariable(fear, NslColor.getColor("GREEN"));
+}
+
+public void initRun()
+{
+	init();
+}
+
+public void initTrain()
+{
+	init();
+}
+
+protected void init()
+{
+	drives=0;
+//	if(nslRandom()<=.5)
+//		drives.set(0, .75);
+//	else
+//		drives.set(1, .75);
+}
+
+public void simTrain()
+{
+	process();
+}
+
+public void simRun()
+{
+	process();
+}
+
+protected void process()
+{
+	for(int i=0; i<numDrives; i++)
+	{
+		drives.set(i, nslMin(d_max[i], nslMax(d_min[i], drives.get(i)+alpha*(d_max[i]-drives.get(i))-reductions.get(i)*nslAbs(drives.get(i)-d_min[i])+incentives.get(i)*nslAbs(d_max[i]-drives.get(i)))));
+	}
+	thirst.set(drives.get(0));
+	hunger.set(drives.get(1));
+	fear.set(drives.get(2));
+}
+public void makeConn(){
+}
+}//end Hypothalamus
+

@@ -1,0 +1,27 @@
+nsl protocol "linearMaze"
+
+nsl initTrainEpoch
+
+for {set i 1} {$i<11} {incr i} {
+	nsl set aCQ_TAM_WG.ratBrain.motivationalSchema.hypothalamus.drives {0.0 1.0 0.0};
+	nsl stepEpoch 1
+}
+
+nsl call aCQ_TAM_WG saveWeights /home/jbonaiuto/School/USC/BrainSimLab/Projects/ACQ-TAM-WG/project/trunk/acq_tam_wg/ACQ_TAM_WG/v1_1_2/data/linear_pre
+
+nsl set aCQ_TAM_WG.world.shock 1
+nsl set aCQ_TAM_WG.ratBrain.motivationalSchema.hypothalamus.drives {0.0 1.0 0.0};
+
+nsl stepEpoch 1
+
+nsl set aCQ_TAM_WG.ratBrain.motivationalSchema.hypothalamus.drives {0.0 1.0 0.0};
+
+nsl stepEpoch 1
+
+nsl call aCQ_TAM_WG saveWeights /home/jbonaiuto/School/USC/BrainSimLab/Projects/ACQ-TAM-WG/project/trunk/acq_tam_wg/ACQ_TAM_WG/v1_1_2/data/linear_post
+
+nsl set aCQ_TAM_WG.ratBrain.motivationalSchema.hypothalamus.drives {0.0 1.0 0.0};
+
+nsl initRunEpoch
+
+nsl stepEpoch 1

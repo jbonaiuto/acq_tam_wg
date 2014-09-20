@@ -1,0 +1,748 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>TAMActor</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<arguments>int size, int numDrives, int maxNodes, double sigma, double maxDesirability, double[] d_min, double[] d_max</arguments>
+	<buffering>true</buffering>
+	<imports>
+	</imports>
+	<variables>
+		<variable type="BasicVariable">
+			<name>policy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>3</dimensions>
+			<type>NslDouble3</type>
+			<params>maxNodes, numDrives, size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>effectivePolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>currentNodeId</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>lastNodeId</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>alpha</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>eligibility</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>currentNodeIdIn</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinInt</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDinInt0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>motivations</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>reinforcement</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>desirability</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>TAMActor</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>140</x>
+				<y>84</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>116</x>
+				<y>84</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>116</x>
+						<y>84</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>116</x>
+						<y>84</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>eligibility</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>14</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>14</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>14</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>14</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinInt0">
+				<name>currentNodeIdIn</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>28</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>28</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>28</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>28</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>motivations</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>42</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>42</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>42</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>42</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>reinforcement</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>56</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>56</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>56</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>56</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>desirability</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>116</x>
+						<y>42</y>
+					</min>
+					<max>
+						<x>140</x>
+						<y>42</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>116</x>
+						<y>42</y>
+					</coordinate>
+					<coordinate>
+						<x>140</x>
+						<y>42</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>eligibility</name>
+				<type>NslDinDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>88</x>
+						<y>48</y>
+					</corner>
+					<corner>
+						<x>100</x>
+						<y>48</y>
+					</corner>
+					<corner>
+						<x>112</x>
+						<y>64</y>
+					</corner>
+					<corner>
+						<x>100</x>
+						<y>80</y>
+					</corner>
+					<corner>
+						<x>88</x>
+						<y>80</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>112</x>
+						<y>64</y>
+					</min>
+					<max>
+						<x>128</x>
+						<y>64</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>currentNodeIdIn</name>
+				<type>NslDinInt0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>88</x>
+						<y>120</y>
+					</corner>
+					<corner>
+						<x>100</x>
+						<y>120</y>
+					</corner>
+					<corner>
+						<x>112</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>100</x>
+						<y>152</y>
+					</corner>
+					<corner>
+						<x>88</x>
+						<y>152</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>112</x>
+						<y>136</y>
+					</min>
+					<max>
+						<x>128</x>
+						<y>136</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>motivations</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>88</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>100</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>112</x>
+						<y>208</y>
+					</corner>
+					<corner>
+						<x>100</x>
+						<y>224</y>
+					</corner>
+					<corner>
+						<x>88</x>
+						<y>224</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>112</x>
+						<y>208</y>
+					</min>
+					<max>
+						<x>128</x>
+						<y>208</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>reinforcement</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>88</x>
+						<y>264</y>
+					</corner>
+					<corner>
+						<x>100</x>
+						<y>264</y>
+					</corner>
+					<corner>
+						<x>112</x>
+						<y>280</y>
+					</corner>
+					<corner>
+						<x>100</x>
+						<y>296</y>
+					</corner>
+					<corner>
+						<x>88</x>
+						<y>296</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>112</x>
+						<y>280</y>
+					</min>
+					<max>
+						<x>128</x>
+						<y>280</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>desirability</name>
+				<type>NslDoutDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>448</x>
+						<y>176</y>
+					</corner>
+					<corner>
+						<x>460</x>
+						<y>176</y>
+					</corner>
+					<corner>
+						<x>472</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>460</x>
+						<y>208</y>
+					</corner>
+					<corner>
+						<x>448</x>
+						<y>208</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>432</x>
+						<y>192</y>
+					</min>
+					<max>
+						<x>448</x>
+						<y>192</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>/**
+ * Executed when NSL starts
+ */
+public void initSys()
+{
+	alpha=.01;
+}
+
+/**
+ * Executed when the module is initialized
+ */
+public void initModule()
+{
+	nslAddSpatialCanvas("output", "tamPolicy", desirability, 0.0, maxDesirability);
+}
+
+public void initTrain()
+{
+	init();
+}
+
+public void initRun()
+{
+	init();
+}
+
+protected void init()
+{
+	// Reset node IDs
+	lastNodeId=-1;
+	currentNodeId=-1;
+}
+
+/**
+ * Executed during each run cycle
+ */
+public void simRun()
+{
+	// Update node IDs
+	updateNodeIds();
+
+	// Update desirability for current state
+	updateDesirability();
+}
+
+/**
+ * Executed during each training cycle
+ */
+public void simTrain()
+{
+	// Update node IDs
+	updateNodeIds();
+
+	// Update policy for last state
+	updatePolicy();
+
+	// Update desirability for current state
+	updateDesirability();
+}
+
+/**
+ * Update current and last node ID
+ */
+protected void updateNodeIds()
+{
+	if(currentNodeIdIn.get()&gt;-1)
+	{
+		if(currentNodeIdIn.get()!=currentNodeId &amp;&amp; currentNodeId&gt;-1)
+			lastNodeId=currentNodeId;
+		currentNodeId=currentNodeIdIn.get();
+	}
+}
+
+/**
+ * Update the desirability for the current state
+ */
+protected void updateDesirability()
+{
+	// Compute the effective policy - policy weighted by motivation levels
+	updateEffectivePolicy();
+
+	// Desirability is just effective policy
+	desirability.set(effectivePolicy.get());
+}
+
+/**
+ * Update the policy using the output of the critic
+ */
+public void updatePolicy()
+{
+	// If this is not the first state we've encountered
+	if(lastNodeId&gt;-1 &amp;&amp; lastNodeId!=currentNodeIdIn.get())
+	{
+		for(int i=0; i&lt;numDrives; i++)
+		{
+			// update policy using learning rate (alpha), reinforcement from critic and eligibility signal
+			for(int j=0; j&lt;size; j++)
+				policy.set(lastNodeId, i, j, policy.get(lastNodeId, i, j)+(motivations.get(i)-d_min[i])/(d_max[i]-d_min[i])*alpha*reinforcement.get(i)*eligibility.get(j));
+		}
+
+		// Normalize policy
+		normalizePolicy();
+	}
+}
+
+/**
+ * Normalizes the policy so that each drive's policy is less than d_max
+ */
+protected void normalizePolicy()
+{
+	for(int i=0; i&lt;numDrives; i++)
+	{
+		double maxVal=nslMaxValue(policy.get(lastNodeId, i));
+		if(maxVal&gt;0.0)
+		{
+			for(int j=0; j&lt;size; j++)
+				policy.set(lastNodeId, i, j, (policy.get(lastNodeId, i, j)/maxVal)*nslMin(d_max[i], maxVal));
+		}
+	}
+}
+
+/**
+ * Update the effective policy based on motivation levels
+ */
+public void updateEffectivePolicy()
+{
+	// If we are currently in a state
+	if(currentNodeId&gt;-1)
+	{
+		effectivePolicy=0;
+
+		for(int i=0; i&lt;numDrives; i++)
+		{
+			// Compute the center of mass for this policy
+			double centerOfMass=0.0, total=0.0, maxVal=0.0;
+			for(int j=0; j&lt;size; j++)
+			{
+				centerOfMass=centerOfMass+policy.get(currentNodeId, i, j)*(j+1);
+				total=total+policy.get(currentNodeId, i, j);
+				maxVal=nslMax(maxVal, policy.get(currentNodeId, i, j));
+			}
+
+			// If there is some policy
+			if(total&gt;0.0)
+			{
+				// Compute center-of-mass
+				centerOfMass=centerOfMass/total-1.0;
+
+				// drive policies are a Gaussian on the center of mass, weighted by drive level
+				for(int j=0; j&lt;size; j++)
+					effectivePolicy.set(j, effectivePolicy.get(j)+(motivations.get(i)-d_min[i])/(d_max[i]-d_min[i])*maxVal*nslExp(-nslPow(j-centerOfMass,2)/(2*sigma*sigma)));
+			}
+		}
+	}
+}
+
+/**
+ * Save policy to file
+ */
+public void saveWeights(String filename)
+{
+	NslTextFile file=new NslTextFile(filename);
+	file.open('W');
+	for(int i=0; i&lt;maxNodes; i++)
+	{
+		for(int j=0; j&lt;numDrives; j++)
+		{
+			for(int k=0; k&lt;size; k++)
+			{
+				if(Double.isNaN(policy.get(i,j,k)))
+					file.puts("NaN");
+				else
+					file.puts(policy.get(i,j,k));
+			}
+		}
+	}
+	file.flush();
+	file.close();
+}
+
+/**
+ * Load policy from file
+ */
+public void loadWeights(String filename)
+{
+	NslTextFile file=new NslTextFile(filename);
+	file.open('R');
+	for(int i=0; i&lt;maxNodes; i++)
+	{
+		for(int j=0; j&lt;numDrives; j++)
+		{
+			for(int k=0; k&lt;size; k++)
+			{
+				String ln=file.gets();
+				if(ln.equals("NaN"))
+					policy.set(i,j,k,Double.NaN);
+				else
+					policy.set(i,j,k,Double.parseDouble(ln));
+			}
+		}
+	}
+	file.close();
+}</methods>
+	</nslm>
+</module>

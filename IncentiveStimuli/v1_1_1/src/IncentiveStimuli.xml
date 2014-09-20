@@ -1,0 +1,544 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>IncentiveStimuli</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<getCurrentVersion>true</getCurrentVersion>
+	<arguments>int size, int numDrives, double sigma</arguments>
+	<buffering>true</buffering>
+	<imports>
+	</imports>
+	<variables>
+		<variable type="InputPort">
+			<name>incentivePosition</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDinDouble2</type>
+			<params>numDrives, 2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>currentPosition</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>motivationalState</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>incentiveDirection</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>maxIncentive</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>IncentiveStimuli</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>172</x>
+				<y>52</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>148</x>
+				<y>52</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>148</x>
+						<y>52</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>148</x>
+						<y>52</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble2">
+				<name>incentivePosition</name>
+				<parameters>numDrives, 2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>20</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>20</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>20</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>20</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>currentPosition</name>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>32</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>32</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>32</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>32</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>motivationalState</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>8</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>8</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>8</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>8</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>incentiveDirection</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>148</x>
+						<y>26</y>
+					</min>
+					<max>
+						<x>172</x>
+						<y>26</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>148</x>
+						<y>26</y>
+					</coordinate>
+					<coordinate>
+						<x>172</x>
+						<y>26</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>currentPosition</name>
+				<type>NslDinDouble1</type>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>192</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>204</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>216</x>
+						<y>208</y>
+					</corner>
+					<corner>
+						<x>204</x>
+						<y>224</y>
+					</corner>
+					<corner>
+						<x>192</x>
+						<y>224</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>216</x>
+						<y>208</y>
+					</min>
+					<max>
+						<x>232</x>
+						<y>208</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>incentivePosition</name>
+				<type>NslDinDouble2</type>
+				<parameters>numDrives, 2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>192</x>
+						<y>112</y>
+					</corner>
+					<corner>
+						<x>204</x>
+						<y>112</y>
+					</corner>
+					<corner>
+						<x>216</x>
+						<y>128</y>
+					</corner>
+					<corner>
+						<x>204</x>
+						<y>144</y>
+					</corner>
+					<corner>
+						<x>192</x>
+						<y>144</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>216</x>
+						<y>128</y>
+					</min>
+					<max>
+						<x>232</x>
+						<y>128</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>motivationalState</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>192</x>
+						<y>360</y>
+					</corner>
+					<corner>
+						<x>204</x>
+						<y>360</y>
+					</corner>
+					<corner>
+						<x>216</x>
+						<y>376</y>
+					</corner>
+					<corner>
+						<x>204</x>
+						<y>392</y>
+					</corner>
+					<corner>
+						<x>192</x>
+						<y>392</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>216</x>
+						<y>376</y>
+					</min>
+					<max>
+						<x>232</x>
+						<y>376</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>incentiveDirection</name>
+				<type>NslDoutDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>624</x>
+						<y>224</y>
+					</corner>
+					<corner>
+						<x>636</x>
+						<y>224</y>
+					</corner>
+					<corner>
+						<x>648</x>
+						<y>240</y>
+					</corner>
+					<corner>
+						<x>636</x>
+						<y>256</y>
+					</corner>
+					<corner>
+						<x>624</x>
+						<y>256</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>608</x>
+						<y>240</y>
+					</min>
+					<max>
+						<x>624</x>
+						<y>240</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void initModule()
+{
+	maxIncentive=1.0;
+	nslAddSpatialCanvas("output", "incentive", incentiveDirection, 0.0, 1.0);
+}
+
+public void simTrain()
+{
+	process();
+}
+
+public void simRun()
+{
+	process();
+}
+
+protected void process()
+{
+	incentiveDirection=0;
+	for(int i=0; i&lt;numDrives; i++)
+	{
+		//if(!Double.isNaN(incentivePosition.get(i,0)) &amp;&amp; !Double.isNaN(orientationDecoder.output.get()))
+		if(!Double.isNaN(incentivePosition.get(i,0)))
+		{
+			// Compute angle between current position and incentive position
+			double[] baseVec=new double[]{1,0};
+			double[] directionVec=new double[]{-incentivePosition.get(i,1)+currentPosition.get(1),-incentivePosition.get(i,0)+currentPosition.get(0)};
+			double angle=(Math.PI+nslArcTan2(directionVec[1],directionVec[0])-nslArcTan2(baseVec[1],baseVec[0]))%(Math.PI*2.0);
+			if(angle&lt;0)
+				angle=Math.PI*2.0+angle;
+
+			// Get relative angle between current orientation and incentive direction
+			//double relAngle=getRelativeAngle(orientationDecoder.output.get(), angle);
+
+			for(int j=0; j&lt;size; j++)
+			{
+				//double prefAngle=-Math.PI+j*(2*Math.PI/(size-1));
+				double prefAngle=0+j*(2*Math.PI/(size-1));
+				//double dist=getDist(relAngle, prefAngle, -Math.PI, Math.PI);
+				double dist=getDist(angle, prefAngle, 0, 2*Math.PI);
+				incentiveDirection.set(j, incentiveDirection.get(j)+maxIncentive*motivationalState.get(i)*nslExp(-nslPow(dist,2)/(2*sigma*sigma)));
+			}
+		}
+	}
+}
+
+protected double getDist(double ang1, double ang2, double min, double max)
+{
+	double dist=(ang1-ang2)%(2*Math.PI+0.001);
+	double altDist=dist;
+	if(ang1&lt;ang2)
+		altDist=max-ang2+ang1-min;
+	else if(ang2&lt;ang1)
+		altDist=max-ang1+ang2-min;
+	if(nslAbs(altDist)&lt;nslAbs(dist))
+		dist=altDist;
+	return dist;
+}
+
+protected double getRelativeAngle(double ang1, double ang2)
+{
+	double relativeAngle=0.0;
+	if(ang1&gt;ang2)
+	{
+		double relAngleRight=(ang2-ang1);
+		double relAngleLeft=2*Math.PI+relAngleRight;
+		if(nslAbs(relAngleRight)&lt;nslAbs(relAngleLeft))
+			relativeAngle=relAngleRight;
+		else
+			relativeAngle=relAngleLeft;
+	}
+	else
+	{
+		double relAngleLeft=ang2-ang1;
+		double relAngleRight=relAngleLeft-2*Math.PI;
+		if(nslAbs(relAngleRight)&lt;nslAbs(relAngleLeft))
+			relativeAngle=relAngleRight;
+		else
+			relativeAngle=relAngleLeft;
+	}
+	return relativeAngle;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</methods>
+	</nslm>
+</module>

@@ -1,0 +1,1174 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>WGActor</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<arguments>int size, int numDrives, int maxNodes, double sigma, double maxDesirability, double[] d_min, double[] d_max</arguments>
+	<buffering>true</buffering>
+	<imports>
+		<import>java.awt.*</import>
+	</imports>
+	<variables>
+		<variable type="BasicVariable">
+			<name>policy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>3</dimensions>
+			<type>NslDouble3</type>
+			<params>maxNodes, numDrives, size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>effectivePolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDouble2</type>
+			<params>numDrives, size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>currentNodeId</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>lastNodeId</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>alpha</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>reinforcement</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>desirability</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>currentNodeIdIn</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinInt</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDinInt0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>eligibility</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>motivations</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>currentOrientation</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDinDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>edgeLengths</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>aversiveTau</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>appetitiveTau</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>node0FearPolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>node1FearPolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>node2FearPolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>node3FearPolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>node0HungerPolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>node1HungerPolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>node2HungerPolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>node3HungerPolicy</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>movingAwayFromNode</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinInt</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDinInt0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>WGActor</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>140</x>
+				<y>68</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>116</x>
+				<y>68</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>116</x>
+						<y>68</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>116</x>
+						<y>68</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>desirability</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>116</x>
+						<y>34</y>
+					</min>
+					<max>
+						<x>140</x>
+						<y>34</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>116</x>
+						<y>34</y>
+					</coordinate>
+					<coordinate>
+						<x>140</x>
+						<y>34</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>reinforcement</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>8</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>8</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>8</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>8</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>eligibility</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>16</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>16</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>16</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>16</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinInt0">
+				<name>currentNodeIdIn</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>24</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>24</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>24</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>24</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>motivations</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>32</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>32</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>32</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>32</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble0">
+				<name>currentOrientation</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>40</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>40</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>40</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>40</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>edgeLengths</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>48</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>48</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>48</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>48</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinInt0">
+				<name>movingAwayFromNode</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>56</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>56</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>56</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>56</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>reinforcement</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>16</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>16</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>32</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>48</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>48</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>32</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>32</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>eligibility</name>
+				<type>NslDinDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>80</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>80</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>96</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>112</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>112</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>96</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>96</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>motivations</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>160</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>160</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>176</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>192</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>176</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>176</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>currentNodeIdIn</name>
+				<type>NslDinInt0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>232</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>232</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>248</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>264</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>264</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>248</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>248</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>currentOrientation</name>
+				<type>NslDinDouble0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>304</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>304</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>320</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>336</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>336</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>320</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>320</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>edgeLengths</name>
+				<type>NslDinDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>376</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>376</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>392</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>408</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>408</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>392</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>392</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>movingAwayFromNode</name>
+				<type>NslDinInt0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>144</x>
+						<y>448</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>448</y>
+					</corner>
+					<corner>
+						<x>168</x>
+						<y>464</y>
+					</corner>
+					<corner>
+						<x>156</x>
+						<y>480</y>
+					</corner>
+					<corner>
+						<x>144</x>
+						<y>480</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>168</x>
+						<y>464</y>
+					</min>
+					<max>
+						<x>184</x>
+						<y>464</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>desirability</name>
+				<type>NslDoutDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>540</x>
+						<y>132</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>132</y>
+					</corner>
+					<corner>
+						<x>564</x>
+						<y>148</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>164</y>
+					</corner>
+					<corner>
+						<x>540</x>
+						<y>164</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>524</x>
+						<y>148</y>
+					</min>
+					<max>
+						<x>540</x>
+						<y>148</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>/**
+ * Executed when NSL starts
+ */
+public void initSys()
+{
+	alpha=.2;
+	aversiveTau=4;
+	appetitiveTau=100;
+}
+
+/**
+ * Executed when the module is initialized
+ */
+public void initModule()
+{
+	nslAddSpatialCanvas("output", "wgPolicy", desirability, 0.0, maxDesirability);
+	nslSetColumns(1,"output");
+	nslAddSpatialCanvas("debug","node3Hunger", node3HungerPolicy, 0, d_max[1], NslColor.getColor("RED"));
+	nslAddSpatialCanvas("debug","node3Fear", node3FearPolicy, -d_max[2], 0, NslColor.getColor("BLUE"));
+	nslAddSpatialCanvas("debug","node2Hunger", node2HungerPolicy, 0, d_max[1], NslColor.getColor("RED"));
+	nslAddSpatialCanvas("debug","node2Fear", node2FearPolicy, -d_max[2], 0, NslColor.getColor("BLUE"));
+	nslAddSpatialCanvas("debug","node1Hunger", node1HungerPolicy, 0, d_max[1], NslColor.getColor("RED"));
+	nslAddSpatialCanvas("debug","node1Fear", node1FearPolicy, -d_max[2], 0, NslColor.getColor("BLUE"));
+	nslAddSpatialCanvas("debug","node0Hunger", node0HungerPolicy, 0, d_max[1], NslColor.getColor("RED"));
+	nslAddSpatialCanvas("debug","node0Fear", node0FearPolicy, -d_max[2], 0, NslColor.getColor("BLUE"));
+	nslSetColumns(1, "debug");
+}
+
+public void reset()
+{
+	// update node IDs
+	lastNodeId=-1;
+	currentNodeId=-1;
+}
+
+/**
+ * Executed before each training epoch
+ */
+public void initTrain()
+{
+	reset();
+}
+
+/**
+ * Executed at the start of each run epoch
+ */
+public void initRun()
+{
+	reset();
+}
+
+/**
+ * Executed during each training cycle
+ */
+public void simTrain()
+{
+	// Update node IDs
+	updateNodeIds();
+
+	// Update policy for last node
+	updatePolicy();
+
+	// Compute desirability
+	updateDesirability();
+}
+
+/**
+ * Executed during each run cycle
+ */
+public void simRun()
+{
+	// Update node IDs
+	updateNodeIds();
+
+	// Compute desirability
+	updateDesirability();
+}
+
+/**
+ * Update current and last node ID
+ */
+protected void updateNodeIds()
+{
+	if(currentNodeIdIn.get()&gt;-1)
+	{
+		if(currentNodeIdIn.get()!=currentNodeId &amp;&amp; currentNodeId&gt;-1)
+			lastNodeId=currentNodeId;
+		currentNodeId=currentNodeIdIn.get();
+	}
+}
+
+/**
+ * Updates desirability
+ */
+protected void updateDesirability()
+{
+	// effective policy is weighted sum of policy for current node
+	updateEffectivePolicy();
+
+	// rotate policy so it is in egocentric reference frame
+	rotatePolicy();
+}
+
+/**
+ * Update the policy using output of the critic
+ */
+public void updatePolicy()
+{
+	// If this is not the first node we've been to
+	if(lastNodeId&gt;-1 &amp;&amp; lastNodeId!=currentNodeIdIn.get())
+	{
+		for(int i=0; i&lt;numDrives; i++)
+		{
+			// update policy using learning rate (alpha), reinforcement from critic and eligibility signal
+			for(int j=0; j&lt;size; j++)
+				policy.set(lastNodeId, i, j, policy.get(lastNodeId, i, j)+(motivations.get(i)-d_min[i])/(d_max[i]-d_min[i])*alpha*reinforcement.get(i)*eligibility.get(j));
+		}
+
+		// Normalize the policy
+		normalizePolicy();
+	}
+}
+
+/**
+ * Normalizes the policy so that each drive's policy is less than d_max
+ */
+protected void normalizePolicy()
+{
+	for(int i=0; i&lt;numDrives; i++)
+	{
+		double maxVal=nslMaxValue(policy.get(lastNodeId, i));
+
+		if(maxVal&gt;0.0)
+		{
+			for(int j=0; j&lt;size; j++)
+				policy.set(lastNodeId, i, j, (policy.get(lastNodeId, i, j)/maxVal)*nslMin(d_max[i], maxVal));
+		}
+	}
+}
+
+/**
+ * Update the effective policy based on motivation levels
+ */
+public void updateEffectivePolicy()
+{
+	// If we are currently at a node
+	if(currentNodeId&gt;-1)
+	{
+		effectivePolicy=0;
+		
+		for(int j=0; j&lt; size; j++)
+		{
+			// drive policies are weighted by drive level
+			for(int i=0; i&lt;numDrives; i++)
+			{
+				effectivePolicy.set(i, j, effectivePolicy.get(i, j)+(motivations.get(i)-d_min[i])/(d_max[i]-d_min[i])*policy.get(currentNodeId, i, j));
+			}
+		}
+	}
+	node0FearPolicy.set(policy.get(0, 2));
+	node0HungerPolicy.set(policy.get(0, 1));
+	node1FearPolicy.set(policy.get(1, 2));
+	node1HungerPolicy.set(policy.get(1, 1));
+	node2FearPolicy.set(policy.get(2, 2));
+	node2HungerPolicy.set(policy.get(2, 1));
+	node3FearPolicy.set(policy.get(3, 2));
+	node3HungerPolicy.set(policy.get(3, 1));
+}
+
+/**
+ * Rotate the policy based on the current orientation
+ */
+protected void rotatePolicy()
+{
+	// Number of radians represented by each neuron
+	double radiansPerUnit=(2.0*Math.PI)/size;
+	// Number of neurons to shift by
+	int unitsToShift=(int)((currentOrientation.get()-Math.PI)/radiansPerUnit);
+
+	for(int j=0; j&lt;size; j++)
+	{
+		desirability.set(j,0);
+		for(int i=0; i&lt;numDrives; i++)
+		{
+			// Compute rotated index, with wraparound
+			int idx=j+unitsToShift;
+			if(idx&lt;0)
+				idx=j+unitsToShift+size;
+			else if(idx&gt;=size)
+				idx=idx-size;
+
+			// Compute the distance bias
+			double distBias=1.0;
+			// in reverse direction desirability actually depends on the nodes before the last one
+			if((j&gt;=10 &amp;&amp; j&lt;=size-10) || movingAwayFromNode.get()&lt;1)
+			{
+				// Compute the distance bias for appetitive drives
+				if(i&lt;2 &amp;&amp; nslAbs(effectivePolicy.get(i, idx))&gt;0 &amp;&amp; edgeLengths.get(j)&gt;0)
+					distBias=nslExp(-nslMax(0.0,edgeLengths.get(j))/appetitiveTau);
+				// Compute the distance bias for aversive drives
+				else if(i&gt;=2 &amp;&amp; nslAbs(effectivePolicy.get(i, idx))&gt;0 &amp;&amp; edgeLengths.get(j)&gt;0)
+					distBias=nslExp(-nslMax(0.0,edgeLengths.get(j))/aversiveTau);
+			}
+			else
+			{
+				// Compute the distance bias for appetitive drives
+				if(i&lt;2 &amp;&amp; nslAbs(effectivePolicy.get(i, idx))&gt;0 &amp;&amp; edgeLengths.get(j)&gt;0)
+					distBias=nslExp(-nslMax(0.0,edgeLengths.get(j)+15)/appetitiveTau);
+				// Compute the distance bias for aversive drives
+				else if(i&gt;=2 &amp;&amp; nslAbs(effectivePolicy.get(i, idx))&gt;0 &amp;&amp; edgeLengths.get(j)&gt;0)
+					distBias=nslExp(-nslMax(0.0,edgeLengths.get(j)+15)/aversiveTau);
+			}
+			// Desirability is rotated policy weighted by distance bias
+			desirability.set(j, desirability.get(j)+distBias*effectivePolicy.get(i, idx));
+		}
+	}
+}
+
+/**
+ * Save policy to file
+ */
+public void saveWeights(String filename)
+{
+	NslTextFile file(filename);
+	file.open('W');
+	for(int i=0; i&lt;maxNodes; i++)
+	{
+		for(int j=0; j&lt;numDrives; j++)
+		{
+			for(int k=0; k&lt;size; k++)
+			{
+				if(Double.isNaN(policy.get(i,j,k)))
+					file.puts("NaN");
+				else
+					file.puts(policy.get(i,j,k));
+			}
+		}
+	}
+	file.flush();
+	file.close();
+}
+
+/**
+ * Load policy from file
+ */
+public void loadWeights(String filename)
+{
+	NslTextFile file(filename);
+	file.open('R');
+	for(int i=0; i&lt;maxNodes; i++)
+	{
+		for(int j=0; j&lt;numDrives; j++)
+		{
+			for(int k=0; k&lt;size; k++)
+			{
+				String ln=file.gets();
+				if(ln.equals("NaN"))
+					policy.set(i,j,k,Double.NaN);
+				else
+					policy.set(i,j,k,Double.parseDouble(ln));
+			}
+		}
+	}
+	file.close();
+}</methods>
+	</nslm>
+</module>

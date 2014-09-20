@@ -1,0 +1,614 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>PPC</name>
+	<version>1_1_2</version>
+	<type>NslJavaModule</type>
+	<arguments>int size, int maxNodes, double sigma, double wgDesirabilitySigma</arguments>
+	<buffering>true</buffering>
+	<imports>
+	</imports>
+	<variables>
+		<variable type="BasicVariable">
+			<name>baseOrientation</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>adjacentNodeCenters</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDinDouble2</type>
+			<params>maxNodes, 2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>currentPosition</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>currentOrientation</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDinDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>affordanceDirOut</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>affordanceDistOut</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>maxDist</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>PPC</module>
+		<version>1_1_2</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>92</x>
+				<y>52</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>68</x>
+				<y>52</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>68</x>
+						<y>52</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>68</x>
+						<y>52</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>affordanceDirOut</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>68</x>
+						<y>14</y>
+					</min>
+					<max>
+						<x>92</x>
+						<y>14</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>68</x>
+						<y>14</y>
+					</coordinate>
+					<coordinate>
+						<x>92</x>
+						<y>14</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble2">
+				<name>adjacentNodeCenters</name>
+				<parameters>maxNodes, 2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>43</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>43</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>43</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>43</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>currentPosition</name>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>6</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>6</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>6</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>6</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>affordanceDistOut</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>68</x>
+						<y>36</y>
+					</min>
+					<max>
+						<x>92</x>
+						<y>36</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>68</x>
+						<y>36</y>
+					</coordinate>
+					<coordinate>
+						<x>92</x>
+						<y>36</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble0">
+				<name>currentOrientation</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>25</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>25</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>25</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>25</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>adjacentNodeCenters</name>
+				<type>NslDinDouble2</type>
+				<parameters>maxNodes, 2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>240</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>252</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>264</x>
+						<y>152</y>
+					</corner>
+					<corner>
+						<x>252</x>
+						<y>168</y>
+					</corner>
+					<corner>
+						<x>240</x>
+						<y>168</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>264</x>
+						<y>152</y>
+					</min>
+					<max>
+						<x>280</x>
+						<y>152</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>currentPosition</name>
+				<type>NslDinDouble1</type>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>240</x>
+						<y>232</y>
+					</corner>
+					<corner>
+						<x>252</x>
+						<y>232</y>
+					</corner>
+					<corner>
+						<x>264</x>
+						<y>248</y>
+					</corner>
+					<corner>
+						<x>252</x>
+						<y>264</y>
+					</corner>
+					<corner>
+						<x>240</x>
+						<y>264</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>264</x>
+						<y>248</y>
+					</min>
+					<max>
+						<x>280</x>
+						<y>248</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>currentOrientation</name>
+				<type>NslDinDouble0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>240</x>
+						<y>312</y>
+					</corner>
+					<corner>
+						<x>252</x>
+						<y>312</y>
+					</corner>
+					<corner>
+						<x>264</x>
+						<y>328</y>
+					</corner>
+					<corner>
+						<x>252</x>
+						<y>344</y>
+					</corner>
+					<corner>
+						<x>240</x>
+						<y>344</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>264</x>
+						<y>328</y>
+					</min>
+					<max>
+						<x>280</x>
+						<y>328</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>affordanceDirOut</name>
+				<type>NslDoutDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>568</x>
+						<y>176</y>
+					</corner>
+					<corner>
+						<x>580</x>
+						<y>176</y>
+					</corner>
+					<corner>
+						<x>592</x>
+						<y>192</y>
+					</corner>
+					<corner>
+						<x>580</x>
+						<y>208</y>
+					</corner>
+					<corner>
+						<x>568</x>
+						<y>208</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>552</x>
+						<y>192</y>
+					</min>
+					<max>
+						<x>568</x>
+						<y>192</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>affordanceDistOut</name>
+				<type>NslDoutDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>576</x>
+						<y>256</y>
+					</corner>
+					<corner>
+						<x>588</x>
+						<y>256</y>
+					</corner>
+					<corner>
+						<x>600</x>
+						<y>272</y>
+					</corner>
+					<corner>
+						<x>588</x>
+						<y>288</y>
+					</corner>
+					<corner>
+						<x>576</x>
+						<y>288</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>560</x>
+						<y>272</y>
+					</min>
+					<max>
+						<x>576</x>
+						<y>272</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>/**
+ * Executed at the start of module constructor
+ */
+public void callFromConstructorTop(Object[] args)
+{
+	maxDist=300;
+}
+
+
+public void initModule()
+{
+	nslAddSpatialCanvas("output", "affordances", affordanceDirOut, 0.0, 1.0);
+	nslSetColumns(1,"output");
+}
+
+public void simRun()
+{
+	process();
+}
+
+public void simTrain()
+{
+	process();
+}
+
+protected void process()
+{
+	for(int i=0; i&lt;size; i++)
+	{
+		double affPrefAngle=-Math.PI+i*(2*Math.PI/(size-1));
+		affordanceDirOut.set(i,0.0);
+		affordanceDistOut.set(i,0.0);
+		for(int j=0; j&lt;maxNodes; j++)
+		{
+			if(!Double.isNaN(adjacentNodeCenters.get(j,0)))
+			{
+				// Compute angle between adjacent node position and this node position
+				double[] baseVec=new double[]{1,0};
+				double[] directionVec=new double[]{-adjacentNodeCenters.get(j,1)+currentPosition.get(1),-adjacentNodeCenters.get(j,0)+currentPosition.get(0)};
+				double angle=(Math.PI+nslArcTan2(directionVec[1],directionVec[0])-nslArcTan2(baseVec[1],baseVec[0]))%(Math.PI*2.0);
+				if(angle&lt;0)
+					angle=Math.PI*2.0+angle;
+
+				// Compute relative angle between affordance and current orientation
+				double relativeAngle=getRelativeAngle(currentOrientation.get(), angle);
+
+				// Encode affordance direction in population code
+				double angleDist=getDist(relativeAngle, affPrefAngle, -Math.PI, Math.PI);
+				double distance=nslDistance(adjacentNodeCenters.get(j),currentPosition.get());
+				double distanceBias=1-distance/maxDist;
+				//double directionBias=nslExp(-nslPow((i-size/2.0), 2)/(2*500000*sigma*sigma));
+				//double directionBias=nslExp(-nslPow((i-size/2.0), 2)/(2*250000*sigma*sigma));
+				affordanceDirOut.set(i,nslMin(1.0,affordanceDirOut.get(i)+distanceBias*nslExp(-nslPow(angleDist, 2)/(2*sigma*sigma))));
+
+				// Set affordance distance if this is above noise levels population code peak
+				if(nslExp(-nslPow(angleDist, 2)/(2*nslPow(wgDesirabilitySigma*.75,2)))&gt;.0000001)
+					affordanceDistOut.set(i, distance);
+			}
+		}
+	}
+}
+
+/**
+ * Get distance between two angles
+*/
+protected double getDist(double ang1, double ang2, double min, double max)
+{
+	double dist=(ang1-ang2)%(2*Math.PI+0.001);
+	double altDist=dist;
+	if(ang1&lt;ang2)
+		altDist=max-ang2+ang1-min;
+	else if(ang2&lt;ang1)
+		altDist=max-ang1+ang2-min;
+	if(nslAbs(altDist)&lt;nslAbs(dist))
+		dist=altDist;
+	return dist;
+}
+
+/**
+ * Get relative angle between two angles
+*/
+protected double getRelativeAngle(double ang1, double ang2)
+{
+	double relativeAngle=0.0;
+	if(ang1&gt;ang2)
+	{
+		double relAngleRight=(ang2-ang1);
+		double relAngleLeft=2*Math.PI+relAngleRight;
+		if(nslAbs(relAngleRight)&lt;nslAbs(relAngleLeft))
+			relativeAngle=relAngleRight;
+		else
+			relativeAngle=relAngleLeft;
+	}
+	else
+	{
+		double relAngleLeft=ang2-ang1;
+		double relAngleRight=relAngleLeft-2*Math.PI;
+		if(nslAbs(relAngleRight)&lt;nslAbs(relAngleLeft))
+			relativeAngle=relAngleRight;
+		else
+			relativeAngle=relAngleLeft;
+	}
+	return relativeAngle;
+}
+</methods>
+	</nslm>
+</module>

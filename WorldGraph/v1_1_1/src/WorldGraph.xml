@@ -1,0 +1,1328 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>WorldGraph</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<getCurrentVersion>true</getCurrentVersion>
+	<arguments>int angleRepSize, int numDrives, double[] d_min, double[] d_max, int maxNodes, double sigma</arguments>
+	<buffering>true</buffering>
+	<imports>
+		<import>java.awt.*</import>
+	</imports>
+	<variables>
+		<variable type="InputPort">
+			<name>currentNodeCenter</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>lastNodeId</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>edgeAngles</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>2</dimensions>
+			<type>double</type>
+			<params>][</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="OutputPort">
+			<name>currentNodeId</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutInt</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDoutInt0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>nodes</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>2</dimensions>
+			<type>double</type>
+			<params>][</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>lastNodeCenter</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>1</dimensions>
+			<type>double</type>
+			<params>/**/</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>edgeLengths</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>2</dimensions>
+			<type>double</type>
+			<params>][</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="OutputPort">
+			<name>lastNodeDist</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDoutDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>canvas</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>other</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslGraphCanvas</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>reinforcement</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>nodeDesirability</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDouble2</type>
+			<params>maxNodes, numDrives</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="OutputPort">
+			<name>currentNodeDesirability</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>alpha</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="OutputPort">
+			<name>desirabilityBias</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>angleRepSize</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>lastDiffNodeId</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>motivations</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>lastNodeDesirability</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>numDrives</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>adjacentNodeCenters</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDinDouble2</type>
+			<params>maxNodes, 2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>novelNodeDesirability</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="InputPort">
+			<name>currentPosition</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>2</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="InputPort">
+			<name>currentOrientation</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>0</dimensions>
+			<type>NslDinDouble0</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>WorldGraph</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>140</x>
+				<y>44</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>116</x>
+				<y>44</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>116</x>
+						<y>44</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>116</x>
+						<y>44</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>currentNodeCenter</name>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>6</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>6</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>6</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>6</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutInt0">
+				<name>currentNodeId</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>116</x>
+						<y>7</y>
+					</min>
+					<max>
+						<x>140</x>
+						<y>7</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>116</x>
+						<y>7</y>
+					</coordinate>
+					<coordinate>
+						<x>140</x>
+						<y>7</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble0">
+				<name>lastNodeDist</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>116</x>
+						<y>14</y>
+					</min>
+					<max>
+						<x>140</x>
+						<y>14</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>116</x>
+						<y>14</y>
+					</coordinate>
+					<coordinate>
+						<x>140</x>
+						<y>14</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>reinforcement</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>12</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>12</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>12</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>12</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>currentNodeDesirability</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>116</x>
+						<y>21</y>
+					</min>
+					<max>
+						<x>140</x>
+						<y>21</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>116</x>
+						<y>21</y>
+					</coordinate>
+					<coordinate>
+						<x>140</x>
+						<y>21</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>desirabilityBias</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>116</x>
+						<y>28</y>
+					</min>
+					<max>
+						<x>140</x>
+						<y>28</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>116</x>
+						<y>28</y>
+					</coordinate>
+					<coordinate>
+						<x>140</x>
+						<y>28</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>motivations</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>18</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>18</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>18</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>18</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>lastNodeDesirability</name>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>116</x>
+						<y>35</y>
+					</min>
+					<max>
+						<x>140</x>
+						<y>35</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>116</x>
+						<y>35</y>
+					</coordinate>
+					<coordinate>
+						<x>140</x>
+						<y>35</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble2">
+				<name>adjacentNodeCenters</name>
+				<parameters>maxNodes, 2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>24</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>24</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>24</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>24</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>currentPosition</name>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>30</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>30</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>30</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>30</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble0">
+				<name>currentOrientation</name>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>36</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>36</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>36</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>36</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>currentNodeCenter</name>
+				<type>NslDinDouble1</type>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>188</x>
+						<y>100</y>
+					</corner>
+					<corner>
+						<x>200</x>
+						<y>100</y>
+					</corner>
+					<corner>
+						<x>212</x>
+						<y>116</y>
+					</corner>
+					<corner>
+						<x>200</x>
+						<y>132</y>
+					</corner>
+					<corner>
+						<x>188</x>
+						<y>132</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>212</x>
+						<y>116</y>
+					</min>
+					<max>
+						<x>228</x>
+						<y>116</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>reinforcement</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>180</x>
+						<y>180</y>
+					</corner>
+					<corner>
+						<x>192</x>
+						<y>180</y>
+					</corner>
+					<corner>
+						<x>204</x>
+						<y>196</y>
+					</corner>
+					<corner>
+						<x>192</x>
+						<y>212</y>
+					</corner>
+					<corner>
+						<x>180</x>
+						<y>212</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>204</x>
+						<y>196</y>
+					</min>
+					<max>
+						<x>220</x>
+						<y>196</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>motivations</name>
+				<type>NslDinDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>180</x>
+						<y>260</y>
+					</corner>
+					<corner>
+						<x>192</x>
+						<y>260</y>
+					</corner>
+					<corner>
+						<x>204</x>
+						<y>276</y>
+					</corner>
+					<corner>
+						<x>192</x>
+						<y>292</y>
+					</corner>
+					<corner>
+						<x>180</x>
+						<y>292</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>204</x>
+						<y>276</y>
+					</min>
+					<max>
+						<x>220</x>
+						<y>276</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>adjacentNodeCenters</name>
+				<type>NslDinDouble2</type>
+				<parameters>maxNodes, 2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>184</x>
+						<y>328</y>
+					</corner>
+					<corner>
+						<x>196</x>
+						<y>328</y>
+					</corner>
+					<corner>
+						<x>208</x>
+						<y>344</y>
+					</corner>
+					<corner>
+						<x>196</x>
+						<y>360</y>
+					</corner>
+					<corner>
+						<x>184</x>
+						<y>360</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>208</x>
+						<y>344</y>
+					</min>
+					<max>
+						<x>224</x>
+						<y>344</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>currentPosition</name>
+				<type>NslDinDouble1</type>
+				<parameters>2</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>184</x>
+						<y>32</y>
+					</corner>
+					<corner>
+						<x>196</x>
+						<y>32</y>
+					</corner>
+					<corner>
+						<x>208</x>
+						<y>48</y>
+					</corner>
+					<corner>
+						<x>196</x>
+						<y>64</y>
+					</corner>
+					<corner>
+						<x>184</x>
+						<y>64</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>208</x>
+						<y>48</y>
+					</min>
+					<max>
+						<x>224</x>
+						<y>48</y>
+					</max>
+				</bounds>
+			</inport>
+			<inport>
+				<name>currentOrientation</name>
+				<type>NslDinDouble0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>184</x>
+						<y>400</y>
+					</corner>
+					<corner>
+						<x>196</x>
+						<y>400</y>
+					</corner>
+					<corner>
+						<x>208</x>
+						<y>416</y>
+					</corner>
+					<corner>
+						<x>196</x>
+						<y>432</y>
+					</corner>
+					<corner>
+						<x>184</x>
+						<y>432</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>208</x>
+						<y>416</y>
+					</min>
+					<max>
+						<x>224</x>
+						<y>416</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>desirabilityBias</name>
+				<type>NslDoutDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>540</x>
+						<y>132</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>132</y>
+					</corner>
+					<corner>
+						<x>564</x>
+						<y>148</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>164</y>
+					</corner>
+					<corner>
+						<x>540</x>
+						<y>164</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>524</x>
+						<y>148</y>
+					</min>
+					<max>
+						<x>540</x>
+						<y>148</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>currentNodeDesirability</name>
+				<type>NslDoutDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>540</x>
+						<y>52</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>52</y>
+					</corner>
+					<corner>
+						<x>564</x>
+						<y>68</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>84</y>
+					</corner>
+					<corner>
+						<x>540</x>
+						<y>84</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>524</x>
+						<y>68</y>
+					</min>
+					<max>
+						<x>540</x>
+						<y>68</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>lastNodeDesirability</name>
+				<type>NslDoutDouble1</type>
+				<parameters>numDrives</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>540</x>
+						<y>212</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>212</y>
+					</corner>
+					<corner>
+						<x>564</x>
+						<y>228</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>244</y>
+					</corner>
+					<corner>
+						<x>540</x>
+						<y>244</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>524</x>
+						<y>228</y>
+					</min>
+					<max>
+						<x>540</x>
+						<y>228</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>currentNodeId</name>
+				<type>NslDoutInt0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>540</x>
+						<y>284</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>284</y>
+					</corner>
+					<corner>
+						<x>564</x>
+						<y>300</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>316</y>
+					</corner>
+					<corner>
+						<x>540</x>
+						<y>316</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>524</x>
+						<y>300</y>
+					</min>
+					<max>
+						<x>540</x>
+						<y>300</y>
+					</max>
+				</bounds>
+			</outport>
+			<outport>
+				<name>lastNodeDist</name>
+				<type>NslDoutDouble0</type>
+				<parameters></parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>540</x>
+						<y>348</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>348</y>
+					</corner>
+					<corner>
+						<x>564</x>
+						<y>364</y>
+					</corner>
+					<corner>
+						<x>552</x>
+						<y>380</y>
+					</corner>
+					<corner>
+						<x>540</x>
+						<y>380</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>524</x>
+						<y>364</y>
+					</min>
+					<max>
+						<x>540</x>
+						<y>364</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void initModule()
+{
+	alpha=.1;
+	novelNodeDesirability=0.5;
+	nodes=new double[maxNodes][2];
+	edgeAngles=new double[maxNodes][maxNodes];
+	edgeLengths=new double[maxNodes][maxNodes];
+	for(int i=0; i&lt;maxNodes; i++)
+	{
+		nodes[i][0]=Double.NaN;
+		nodes[i][1]=Double.NaN;
+		for(int j=0; j&lt;maxNodes; j++)
+		{
+			edgeAngles[i][j]=Double.NaN;
+			edgeLengths[i][j]=Double.NaN;
+		}
+	}
+	canvas=nslAddGraphCanvas("desirability", "world graph", 32, nslMin(0, nslMinValue(d_min))*.1, nslMax(1, nslMaxValue(d_max))*.5);
+	nslAddSpatialCanvas("output", "node desirability", desirabilityBias, (double)-0.1, (double)0.5);
+	nslSetColumns(1,"output");
+	nslSetColumns(2,"desirability");
+}
+
+public void reset()
+{
+	lastNodeId=-1;
+	lastDiffNodeId=-1;
+	lastNodeCenter=new double[2];
+}
+
+public void simTrain()
+{
+	process();
+}
+
+public void simRun()
+{
+	process();
+}
+
+protected void process()
+{
+	if(system.getCurrentTime()&lt;system.getDelta())
+		reset();
+	currentNodeId.set(getNode(currentNodeCenter.get(),true));
+	canvas.unhighlightAll();
+	canvas.highlightNode(""+currentNodeId.get());
+
+	for(int i=0; i&lt;numDrives; i++)
+	{
+		currentNodeDesirability.set(i, nodeDesirability.get(currentNodeId.get(),i));
+	}
+
+	// Moved to a new node
+	if(currentNodeId.get()!=lastNodeId &amp;&amp; lastNodeId&gt;-1)
+	{
+		addEdge();
+		lastNodeDist.set(nslSqrt(nslPow(currentNodeCenter.get(0)-lastNodeCenter[0],2)+nslPow(currentNodeCenter.get(1)-lastNodeCenter[1],2)));
+		lastDiffNodeId=lastNodeId;
+	}
+	else
+		lastNodeDist.set(0.0);
+
+	if(lastDiffNodeId&gt;-1)
+	{
+		for(int i=0; i&lt;numDrives; i++)
+			lastNodeDesirability.set(i, nodeDesirability.get(lastDiffNodeId,i));
+		updateNodeDesirability(reinforcement.get());
+	}
+
+	updateDesirabilityBias();
+	
+	lastNodeId=currentNodeId.get();
+	lastNodeCenter[0]=currentNodeCenter.get(0);
+	lastNodeCenter[1]=currentNodeCenter.get(1);
+}
+
+public void updateNodeDesirability(double[] reinforcement)
+{
+	double[] colors= new  double[numDrives];
+	for(int i=0; i&lt;numDrives; i++)
+	{
+		nodeDesirability.set(lastDiffNodeId,i,nslMax(-.5,nslMin(0.5, nodeDesirability.get(lastDiffNodeId,i)+alpha*reinforcement[i])));
+		colors[i]=(double)getColor(nodeDesirability.get(lastDiffNodeId,i));
+	}
+	if(nslMaxValue(nslAbs(reinforcement))&gt;0)
+		canvas.updateNode(""+lastDiffNodeId, colors);
+}
+
+protected void updateDesirabilityBias()
+{
+	// Compute desirability bias
+	desirabilityBias=0;
+	//if(!Double.isNaN(orientationDecoder.output.get()))
+	//{
+		// For each desirability bias unit
+		for(int j=0; j&lt;angleRepSize; j++)
+		{
+			// Set desirability to desirability values of node weighted by motivational state
+			double prefAngle=-Math.PI+j*(2*Math.PI/(angleRepSize-1));
+			//double prefAngle=0+j*(2*Math.PI/(angleRepSize-1));
+			for(int i=0; i&lt;maxNodes; i++)
+			{
+				// If node is adjacent to current node
+				if(!Double.isNaN(edgeAngles[currentNodeId.get()][i]))
+				{
+					// Get relative angle between current orientation and edge orientation
+					double ang=getRelativeAngle(currentOrientation.get(), edgeAngles[currentNodeId.get()][i]);
+					double ang_dist=getDist(ang, prefAngle, -Math.PI, Math.PI);
+					//double ang_dist=getDist(edgeAngles[currentNodeId.get()][i], prefAngle, 0, 2*Math.PI);
+					double node_dist=nslDistance(currentPosition.get(), nodes[i]);
+					for(int k=0; k&lt;numDrives; k++)
+					{
+						desirabilityBias.set(j,desirabilityBias.get(j)+(nslAbs(motivations.get(k))*nodeDesirability.get(i,k)*nslExp(-nslPow(ang_dist, 2)/(2*sigma*sigma)))/(node_dist+1));
+					}
+				}
+
+				if(!Double.isNaN(adjacentNodeCenters.get(i,0)) &amp;&amp; getNode(adjacentNodeCenters.get(i),false)==-1)
+				{
+					// Compute angle between adjacent node position and this node position
+					double[] baseVec=new double[]{1,0};
+					double[] directionVec=new double[]{-adjacentNodeCenters.get(i,1)+currentNodeCenter.get(1),-adjacentNodeCenters.get(i,0)+currentNodeCenter.get(0)};
+					double angle=(Math.PI+nslArcTan2(directionVec[1],directionVec[0])-nslArcTan2(baseVec[1],baseVec[0]))%(Math.PI*2.0);
+					if(angle&lt;0)
+						angle=Math.PI*2.0+angle;
+					double rel_ang=getRelativeAngle(currentOrientation.get(), angle);
+					//double ang_dist=getDist(angle, prefAngle, 0, 2*Math.PI);
+					double ang_dist=getDist(rel_ang, prefAngle, -Math.PI, Math.PI);
+					desirabilityBias.set(j,desirabilityBias.get(j)+novelNodeDesirability*nslExp(-nslPow(ang_dist, 2)/(2*sigma*sigma)));
+				}
+			}
+		}
+	//}
+}
+
+protected int getNode(double[] position, boolean add)
+{
+	for(int i=0; i&lt;maxNodes; i++)
+	{
+		if(!Double.isNaN(nodes[i][0]) &amp;&amp; !Double.isNaN(nodes[i][1]))
+		{
+			if(nslDistance(nodes[i],position)&lt;.1)
+			{
+				// Found current node id
+				return i;
+			}
+		}
+		else if(add)
+		{
+			// Add new node
+			nodes[i][0]=position[0];
+			nodes[i][1]=position[1];
+			double[] colors=new double[numDrives];
+			for(int j=0; j&lt;numDrives; j++)
+			{
+				colors[j]=(double)getColor(nodeDesirability.get(i,j));
+			}
+			canvas.addNode(""+i, new double[]{nodes[i][0], nodes[i][1]}, colors, false);
+			
+			return i;
+		}
+		else
+			break;
+	}
+	return -1;
+}
+
+protected void addEdge()
+{
+	// Add new edge
+	if(Double.isNaN(edgeAngles[currentNodeId.get()][lastNodeId]) || Double.isNaN(edgeAngles[lastNodeId][currentNodeId.get()]))
+	{
+		// Compute angle between last node position and this node position
+		double[] baseVec=new double[]{1,0};
+		double[] directionVec=new double[]{-currentNodeCenter.get(1)+lastNodeCenter[1],-currentNodeCenter.get(0)+lastNodeCenter[0]};
+		double angle=(Math.PI+nslArcTan2(directionVec[1],directionVec[0])-nslArcTan2(baseVec[1],baseVec[0]))%(Math.PI*2.0);
+		if(angle&lt;0)
+			angle=Math.PI*2.0+angle;
+
+		// Add edge from last node to this node
+		edgeAngles[lastNodeId][currentNodeId.get()]=angle;
+		edgeLengths[lastNodeId][currentNodeId.get()]=lastNodeDist.get();
+
+		canvas.addEdge(""+lastNodeId, ""+currentNodeId.get());
+	}
+}
+
+protected float getColor(double val)
+{
+	float degreesOfHue = 240.0f-((float)((val-nslMin(0,nslMinValue(d_min))*.5)/(nslMax(1,nslMaxValue(d_max))*.5 - nslMin(0,nslMinValue(d_min))*.5))*240.0f);
+	if(degreesOfHue&lt;0.0)
+		degreesOfHue=0.0f;
+	else if(degreesOfHue&gt;360.0)
+		degreesOfHue=360.0f;
+	return degreesOfHue/360.0f;
+}
+
+protected double getDist(double ang1, double ang2, double min, double max)
+{
+	double dist=(ang1-ang2)%(2*Math.PI+0.001);
+	//double altDist=(ang2-ang1)%(2*Math.PI+0.001);
+	double altDist=dist;
+	if(ang1&lt;ang2)
+		altDist=max-ang2+ang1-min;
+	else if(ang2&lt;ang1)
+		altDist=max-ang1+ang2-min;
+	if(nslAbs(altDist)&lt;nslAbs(dist))
+		dist=altDist;
+	return dist;
+}
+
+protected double getRelativeAngle(double ang1, double ang2)
+{
+	double relativeAngle=0.0;
+	if(ang1&gt;ang2)
+	{
+		double relAngleRight=(ang2-ang1);
+		double relAngleLeft=2*Math.PI+relAngleRight;
+		if(nslAbs(relAngleRight)&lt;nslAbs(relAngleLeft))
+			relativeAngle=relAngleRight;
+		else
+			relativeAngle=relAngleLeft;
+	}
+	else
+	{
+		double relAngleLeft=ang2-ang1;
+		double relAngleRight=relAngleLeft-2*Math.PI;
+		if(nslAbs(relAngleRight)&lt;nslAbs(relAngleLeft))
+			relativeAngle=relAngleRight;
+		else
+			relativeAngle=relAngleLeft;
+	}
+	return relativeAngle;
+}
+</methods>
+	</nslm>
+</module>

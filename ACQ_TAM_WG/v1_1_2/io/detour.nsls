@@ -1,0 +1,7 @@
+nsl initRunEpoch
+
+nsl protocol "detourMaze1"
+
+nsl train
+
+nsl call aCQ_TAM_WG saveWeights /home/jbonaiuto/School/USC/BrainSimLab/Projects/ACQ-TAM-WG/project/trunk/acq_tam_wg/ACQ_TAM_WG/v1_1_2/data/detour

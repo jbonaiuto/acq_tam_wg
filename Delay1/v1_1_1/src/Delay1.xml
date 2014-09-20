@@ -1,0 +1,581 @@
+<module>
+	<library>acq_tam_wg</library>
+	<name>Delay1</name>
+	<version>1_1_1</version>
+	<type>NslJavaModule</type>
+	<getCurrentVersion>true</getCurrentVersion>
+	<arguments>int size, double minDelay, double maxDelay</arguments>
+	<buffering>true</buffering>
+	<imports>
+	</imports>
+	<variables>
+		<variable type="InputPort">
+			<name>in</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDinDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDinDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>E</signalType>
+		</variable>
+		<variable type="OutputPort">
+			<name>out</name>
+			<access>public</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDoutDouble</categoryType>
+			<dimensions>1</dimensions>
+			<type>NslDoutDouble1</type>
+			<params>size</params>
+			<inits></inits>
+			<comment></comment>
+			<buffering>false</buffering>
+			<iconDirection>L</iconDirection>
+			<schDirection>L</schDirection>
+			<signalType>O</signalType>
+		</variable>
+		<variable type="BasicVariable">
+			<name>delay_line</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>NslDouble</categoryType>
+			<dimensions>2</dimensions>
+			<type>NslDouble2</type>
+			<params>0, size</params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>delay</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>double</categoryType>
+			<dimensions>0</dimensions>
+			<type>double</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+		<variable type="BasicVariable">
+			<name>delay_time_steps</name>
+			<access>private</access>
+			<scope>local</scope>
+			<constant>false</constant>
+			<categoryType>int</categoryType>
+			<dimensions>0</dimensions>
+			<type>int</type>
+			<params></params>
+			<inits></inits>
+			<comment></comment>
+		</variable>
+	</variables>
+	<icon>
+		<library>acq_tam_wg</library>
+		<module>Delay1</module>
+		<version>1_1_1</version>
+		<bounds>
+			<min>
+				<x>0</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>116</x>
+				<y>36</y>
+			</max>
+		</bounds>
+		<shape>
+			<min>
+				<x>24</x>
+				<y>0</y>
+			</min>
+			<max>
+				<x>92</x>
+				<y>36</y>
+			</max>
+		</shape>
+		<parts>
+			<part type="rect">
+				<bounds>
+					<min>
+						<x>24</x>
+						<y>0</y>
+					</min>
+					<max>
+						<x>92</x>
+						<y>36</y>
+					</max>
+				</bounds>
+				<color>-1</color>
+				<coordinates>
+					<coordinate>
+						<x>24</x>
+						<y>0</y>
+					</coordinate>
+					<coordinate>
+						<x>92</x>
+						<y>36</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDinDouble1">
+				<name>in</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>E</signalType>
+				<bounds>
+					<min>
+						<x>0</x>
+						<y>18</y>
+					</min>
+					<max>
+						<x>24</x>
+						<y>18</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>0</x>
+						<y>18</y>
+					</coordinate>
+					<coordinate>
+						<x>24</x>
+						<y>18</y>
+					</coordinate>
+				</coordinates>
+			</part>
+			<part type="NslDoutDouble1">
+				<name>out</name>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<signalType>O</signalType>
+				<bounds>
+					<min>
+						<x>92</x>
+						<y>18</y>
+					</min>
+					<max>
+						<x>116</x>
+						<y>18</y>
+					</max>
+				</bounds>
+				<color>-16711936</color>
+				<coordinates>
+					<coordinate>
+						<x>92</x>
+						<y>18</y>
+					</coordinate>
+					<coordinate>
+						<x>116</x>
+						<y>18</y>
+					</coordinate>
+				</coordinates>
+			</part>
+		</parts>
+	</icon>
+	<schematic>
+		<inports>
+			<inport>
+				<name>in</name>
+				<type>NslDinDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>200</x>
+						<y>104</y>
+					</corner>
+					<corner>
+						<x>212</x>
+						<y>104</y>
+					</corner>
+					<corner>
+						<x>224</x>
+						<y>120</y>
+					</corner>
+					<corner>
+						<x>212</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>200</x>
+						<y>136</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>224</x>
+						<y>120</y>
+					</min>
+					<max>
+						<x>240</x>
+						<y>120</y>
+					</max>
+				</bounds>
+			</inport>
+		</inports>
+		<outports>
+			<outport>
+				<name>out</name>
+				<type>NslDoutDouble1</type>
+				<parameters>size</parameters>
+				<portDirection>L</portDirection>
+				<corners>
+					<corner>
+						<x>344</x>
+						<y>120</y>
+					</corner>
+					<corner>
+						<x>356</x>
+						<y>120</y>
+					</corner>
+					<corner>
+						<x>368</x>
+						<y>136</y>
+					</corner>
+					<corner>
+						<x>356</x>
+						<y>152</y>
+					</corner>
+					<corner>
+						<x>344</x>
+						<y>152</y>
+					</corner>
+				</corners>
+				<bounds>
+					<min>
+						<x>328</x>
+						<y>136</y>
+					</min>
+					<max>
+						<x>344</x>
+						<y>136</y>
+					</max>
+				</bounds>
+			</outport>
+		</outports>
+		<textObjects>
+		</textObjects>
+		<icons>
+		</icons>
+		<connections>
+		</connections>
+	</schematic>
+	<nslm>
+		<extends></extends>
+		<extendsParams></extendsParams>
+		<implements></implements>
+		<comment></comment>
+		<methods>public void initRun()
+{
+	init(system.getRunDelta());
+}
+
+public void initTrain()
+{
+	init(system.getTrainDelta());
+}
+
+protected void init(double dt)
+{
+	delay=minDelay+nslRandom()*(maxDelay-minDelay);
+	delay_time_steps=(int)(delay/dt);
+	delay_line.nslMemAlloc(delay_time_steps, size);
+	out=0;
+}
+
+public void simRun()
+{
+	processInput();
+}
+
+public void simTrain()
+{
+	processInput();
+}
+
+protected void processInput()
+{
+	for(int i=delay_time_steps-1; i&gt;0; i--)
+	{
+		delay_line[i]=delay_line[i-1];
+	}
+	delay_line[0]=in;
+	if(system.getCurrentTime()&gt;delay)
+		out=delay_line[delay_time_steps-1];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</methods>
+	</nslm>
+</module>

@@ -1,0 +1,73 @@
+package acq_tam_wg.Pop1dDecoder.v1_1_1.src;
+
+nslJavaModule Pop1dDecoder(int size, double minVal, double maxVal, double threshold, boolean symmetric){
+
+//NSL Version: 3_0_1
+//Sif Version: 9
+//libNickName: acq_tam_wg
+//moduleName:  Pop1dDecoder
+//versionName: 1_1_1
+
+
+//variables 
+public NslDinDouble1 input(size); // 
+public NslDoutDouble0 output(); // 
+private double sum; // 
+
+//methods 
+public void simRun()
+{
+	processInput();
+}
+
+public void simTrain()
+{
+	processInput();
+}
+
+protected void processInput()
+{
+	output=0;
+	sum=0;
+	if(symmetric && input.get(0)>=threshold && input.get(size-1)>=threshold)
+	{
+		double negTotal=0, posTotal=0;
+		for(int i=0; i<size; i++)
+		{
+			if(i<size/2)
+				negTotal=negTotal+input.get(i);
+			else
+				posTotal=posTotal+input.get(i);
+		}
+		for(int i=0; i<size; i++)
+		{
+			if(input.get(i)>=threshold)
+			{
+				double prefVal=minVal+((double)i)*((maxVal-minVal)/(size-1));
+				if(i<size/2 && posTotal>=negTotal)
+					prefVal=prefVal+(maxVal-minVal);
+				else if(i>size/2 && negTotal>posTotal)
+					prefVal=prefVal+(minVal-maxVal);
+				output.set(output.get()+input.get(i)*prefVal);
+				sum=sum+input.get(i);
+			}
+		}
+	}
+	else
+	{		
+		for(int i=0; i<size; i++)
+		{
+			if(input.get(i)>=threshold)
+			{
+				double prefVal=minVal+((double)i)*((maxVal-minVal)/(size-1));
+				output.set(output.get()+input.get(i)*prefVal);
+				sum=sum+input.get(i);
+			}
+		}
+	}
+	output.set(output.get()/sum);
+}
+public void makeConn(){
+}
+}//end Pop1dDecoder
+
